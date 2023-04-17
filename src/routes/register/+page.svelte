@@ -1,0 +1,3 @@
+<div>
+     register Page
+</div>

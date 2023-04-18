@@ -19,15 +19,14 @@
                     <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
                          <img class="h-11" src="/logo-mobile.svg" alt="Your Company">
                          <div class="mt-24 sm:mt-32 lg:mt-16">
-                         <a href="#" class="inline-flex space-x-6">
-                              <span class="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-bold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20">Latest updates</span>
-                              <span class="inline-flex items-center space-x-2 text-sm font-medium leading-6 text-gray-300">
-                                   <span>Just shipped v1.0</span>
-                                   <svg class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" /></svg>
+                              <a href="#" class="inline-flex space-x-6">
+                                   <span class="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-bold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20">Latest updates</span>
+                              </a>
+                              <span class="inline-flex items-center ml-4 space-x-2 text-sm font-medium leading-6 text-gray-300">
+                                   Version 1.0.0
                               </span>
-                         </a>
                          </div>
-                         <h1 class="mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl">Deploy to the cloud with confidence</h1>
+                         <h1 class="mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl">Manage your tasks with confidence</h1>
                          <p class="mt-6 text-lg leading-8 text-gray-300">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.</p>
                          <div class="mt-10 flex items-center gap-x-6">
                               <a href="#" class="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">Get started</a>
@@ -36,7 +35,7 @@
                     </div>
                     <div class="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32">
                          <div class="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
-                              <img src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png" alt="App screenshot" width="2432" height="1442" class="w-[76rem] rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10">
+                              <img src="/app-screenshot.png" alt="App screenshot" width="2432" height="1442" class="w-[76rem] rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10">
                          </div>
                     </div>
                </div>
@@ -45,35 +44,35 @@
           <div class="mx-auto mt-8 max-w-7xl px-6 sm:mt-16 lg:px-8">
                <h2 class="text-center text-lg font-bold leading-8 text-white">The world’s most innovative companies use our app</h2>
                <div class="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
-                    <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/transistor-logo-white.svg" alt="Transistor" width="158" height="48">
-                    <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/reform-logo-white.svg" alt="Reform" width="158" height="48">
-                    <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/tuple-logo-white.svg" alt="Tuple" width="158" height="48">
-                    <img class="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/savvycal-logo-white.svg" alt="SavvyCal" width="158" height="48">
-                    <img class="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/statamic-logo-white.svg" alt="Statamic" width="158" height="48">
+                    <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1" src="/transistor-logo-white.svg" alt="Transistor" width="158" height="48">
+                    <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1" src="/reform-logo-white.svg" alt="Reform" width="158" height="48">
+                    <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1" src="/tuple-logo-white.svg" alt="Tuple" width="158" height="48">
+                    <img class="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1" src="/savvycal-logo-white.svg" alt="SavvyCal" width="158" height="48">
+                    <img class="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1" src="/statamic-logo-white.svg" alt="Statamic" width="158" height="48">
                </div>
           </div>
    
           <div class="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
                <div class="mx-auto max-w-2xl text-center">
-                    <h2 class="text-base font-bold leading-7 text-indigo-400">Deploy faster</h2>
-                    <p class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">Everything you need to deploy your app</p>
+                    <h2 class="text-base font-bold leading-7 text-indigo-400">Work faster</h2>
+                    <p class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">Everything you need to stay on task</p>
                     <p class="mt-6 text-lg leading-8 text-gray-300">Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam voluptatum cupiditate veritatis in accusamus quisquam.</p>
                </div>
                <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
                     <dl class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
-                         <div class="flex flex-col">
-                              <dt class="text-base font-bold leading-7 text-white">
+                         <div class="flex flex-col text-center">
+                              <dt class="flex flex-col justify-center items-center text-base font-bold leading-7 text-white">
                                    <div class="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500">
                                         <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
                                    </div>
-                                   Server monitoring
+                                   Online Access
                               </dt>
                               <dd class="mt-1 flex flex-auto flex-col text-base leading-7 text-gray-300">
                                    <p class="flex-auto">Non quo aperiam repellendus quas est est. Eos aut dolore aut ut sit nesciunt. Ex tempora quia. Sit nobis consequatur dolores incidunt.</p>
                               </dd>
                          </div>
-                         <div class="flex flex-col">
-                              <dt class="text-base font-bold leading-7 text-white">
+                         <div class="flex flex-col text-center">
+                              <dt class="flex flex-col justify-center items-center text-base font-bold leading-7 text-white">
                                    <div class="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500">
                                         <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" /></svg>
                                    </div>
@@ -83,15 +82,15 @@
                                    <p class="flex-auto">Vero eum voluptatem aliquid nostrum voluptatem. Vitae esse natus. Earum nihil deserunt eos quasi cupiditate. A inventore et molestiae natus.</p>
                               </dd>
                          </div>
-                         <div class="flex flex-col">
-                              <dt class="text-base font-bold leading-7 text-white">
+                         <div class="flex flex-col text-center">
+                              <dt class="flex flex-col justify-center items-center text-base font-bold leading-7 text-white">
                                    <div class="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500">
                                         <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" /></svg>
                                    </div>
                                    Task scheduling
                               </dt>
                               <dd class="mt-1 flex flex-auto flex-col text-base leading-7 text-gray-300">
-                                   <p class="flex-auto">Et quod quaerat dolorem quaerat architecto aliquam accusantium. Ex adipisci et doloremque autem quia quam. Quis eos molestiae at iure impedit.</p>
+                                   <p class="flex-auto">Et quod quaerat dolorem quaerat architecto aliquam accusantium. Ex adipisci et doloremque autem quia quam. Quis eos molestiae at iure.</p>
                               </dd>
                          </div>
                     </dl>
@@ -102,13 +101,13 @@
                <div class="mx-auto max-w-7xl px-6 lg:px-8">
                     <div class="mx-auto max-w-2xl sm:text-center">
                          <h2 class="text-base font-bold leading-7 text-indigo-400">Everything you need</h2>
-                         <p class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">No server? No problem.</p>
+                         <p class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">Need focus? No problem.</p>
                          <p class="mt-6 text-lg leading-8 text-gray-300">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis.</p>
                     </div>
                </div>
                <div class="relative overflow-hidden pt-16">
                     <div class="mx-auto max-w-7xl px-6 lg:px-8">
-                         <img src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png" alt="App screenshot" class="mb-[-12%] rounded-xl shadow-2xl ring-1 ring-white/10" width="2432" height="1442">
+                         <img src="/app-screenshot.png" alt="App screenshot" class="mb-[-12%] rounded-xl shadow-2xl ring-1 ring-white/10" width="2432" height="1442">
                          <div class="relative" aria-hidden="true">
                               <div class="absolute -inset-x-20 bottom-0 bg-gradient-to-t from-gray-900 pt-[7%]"></div>
                          </div>
@@ -119,21 +118,21 @@
                          <div class="relative pl-9">
                               <dt class="inline font-bold text-white">
                                    <svg class="absolute left-1 top-1 h-5 w-5 text-indigo-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.5 17a4.5 4.5 0 01-1.44-8.765 4.5 4.5 0 018.302-3.046 3.5 3.5 0 014.504 4.272A4 4 0 0115 17H5.5zm3.75-2.75a.75.75 0 001.5 0V9.66l1.95 2.1a.75.75 0 101.1-1.02l-3.25-3.5a.75.75 0 00-1.1 0l-3.25 3.5a.75.75 0 101.1 1.02l1.95-2.1v4.59z" clip-rule="evenodd" /></svg>
-                                   Push to deploy.
+                                   Cloud save.
                               </dt>
                               <dd class="inline">Lorem ipsum, dolor sit amet consectetur adipisicing elit aute id magna.</dd>
                          </div>
                          <div class="relative pl-9">
                               <dt class="inline font-bold text-white">
                                    <svg class="absolute left-1 top-1 h-5 w-5 text-indigo-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd" /></svg>
-                                   SSL certificates.
+                                   Account access.
                               </dt>
                               <dd class="inline">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.</dd>
                          </div>
                          <div class="relative pl-9">
                               <dt class="inline font-bold text-white">
                                    <svg class="absolute left-1 top-1 h-5 w-5 text-indigo-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.39zm1.23-3.723a.75.75 0 00.219-.53V2.929a.75.75 0 00-1.5 0V5.36l-.31-.31A7 7 0 003.239 8.188a.75.75 0 101.448.389A5.5 5.5 0 0113.89 6.11l.311.31h-2.432a.75.75 0 000 1.5h4.243a.75.75 0 00.53-.219z" clip-rule="evenodd" /></svg>
-                                   Simple queues.
+                                   Manage projects.
                               </dt>
                               <dd class="inline">Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.</dd>
                          </div>
@@ -147,7 +146,7 @@
                          <div class="relative pl-9">
                               <dt class="inline font-bold text-white">
                                    <svg class="absolute left-1 top-1 h-5 w-5 text-indigo-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.84 1.804A1 1 0 018.82 1h2.36a1 1 0 01.98.804l.331 1.652a6.993 6.993 0 011.929 1.115l1.598-.54a1 1 0 011.186.447l1.18 2.044a1 1 0 01-.205 1.251l-1.267 1.113a7.047 7.047 0 010 2.228l1.267 1.113a1 1 0 01.206 1.25l-1.18 2.045a1 1 0 01-1.187.447l-1.598-.54a6.993 6.993 0 01-1.929 1.115l-.33 1.652a1 1 0 01-.98.804H8.82a1 1 0 01-.98-.804l-.331-1.652a6.993 6.993 0 01-1.929-1.115l-1.598.54a1 1 0 01-1.186-.447l-1.18-2.044a1 1 0 01.205-1.251l1.267-1.114a7.05 7.05 0 010-2.227L1.821 7.773a1 1 0 01-.206-1.25l1.18-2.045a1 1 0 011.187-.447l1.598.54A6.993 6.993 0 017.51 3.456l.33-1.652zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" /></svg>
-                                   Powerful API.
+                                   Personal settings.
                               </dt>
                               <dd class="inline">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.</dd>
                          </div>

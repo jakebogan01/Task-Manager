@@ -17,7 +17,7 @@
                </div>
                <div class="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-40 lg:flex lg:px-8 lg:pt-40">
                     <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
-                         <img class="h-11" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+                         <img class="h-11" src="/logo-mobile.svg" alt="Your Company">
                          <div class="mt-24 sm:mt-32 lg:mt-16">
                          <a href="#" class="inline-flex space-x-6">
                               <span class="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-bold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20">Latest updates</span>

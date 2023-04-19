@@ -37,7 +37,7 @@
 </script>
 
 <div class="flex flex-col items-center justify-center flex-1 p-6 text-white min-h-screen bg-gradient-to-r from-[#BD00FF] to-[#51ABFF]">
-    <form on:submit|preventDefault={handleAuthentication} class="flex flex-col gap-3.5 w-[25rem] max-w-full mx-auto">
+    <form on:submit|preventDefault={handleAuthentication} class="flex flex-col gap-5 w-[25rem] max-w-full mx-auto">
         <h1 class="text-center text-5xl mb-4">{title}</h1>
         <label class="relative border border-black rounded-md">
             <p class={fields.email ? " above" : " center"}>Email</p>
@@ -105,14 +105,14 @@
         color: #FFFFFF;
         border-radius: 0.25rem;
         padding: 0 0.375rem;
-        font-size: 0.8rem;
+        font-size: 1rem;
     }
     .above {
         top: 0;
         left: 1.5rem;
-        background-color: #FFFFFF;
-        font-size: 0.7rem;
-        color: #101827;
+        background-color: #459ff5;
+        font-size: 1rem;
+        color: #FFFFFF;
         box-shadow: 0.25rem 0.25rem 0.375rem rgba(80, 70, 229, 0.5);
     }
     .center {

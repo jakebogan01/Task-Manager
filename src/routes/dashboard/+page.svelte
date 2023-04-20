@@ -1,9 +1,9 @@
 <script>
-     import BoardStore from '../../stores/boardStore';
+     import BoardStore from "../../stores/boardStore";
 
      let specificId;
-     let themeStatus = false;
      let darkTheme = false;
+     let numberOfBoards = 0;
 
      const findBoard = (id) => {
           specificId = id;
@@ -100,7 +100,7 @@
                let updatedBoard = copiedBoards.find(board => board.id === specificId);
                
                updatedBoard.status.push("PROCESS");
-
+               
                return copiedBoards;
           });
      }
@@ -111,8 +111,10 @@
 </script>
 
 <div class:dark={darkTheme}>
-     <div class="flex text-white dark:bg-green-400">
-          <div class="border-2 border-red-500 min-h-screen w-[300px]">
+     <div class="flex bg-[#F4F7FD] dark:bg-[#20212C]">
+          <div class="bg-white min-h-screen w-[18.75rem]">
+               <img src="/logo-light.svg" class="mx-auto mt-[2.125rem] mb-14" alt="app manageit logo">
+               <span class="px-8 font-bold text-xs text-[#828FA3]">ALL BOARDS ( {numberOfBoards} )</span>
                {#each $BoardStore as board (board.id)}
                     <div on:click={() => findBoard(board.id)} on:keydown={()=>{}}>
                          {board.title}
@@ -122,15 +124,15 @@
                <br>
                <button on:click={changeTheme}>change theme</button>
           </div>
-          <div class="flex-1 flex flex-col border-2 border-orange-500">
-               <div class="border-2 border-blue-500 h-[100px]">
+          <div class="flex-1 flex flex-col">
+               <div class="bg-white h-[6.0625rem]">
                     <button on:click={createTask}>create new task</button>
                     <br>
                     <button on:click={deleteBoard}>delete board</button>
                     <br>
                     <button on:click={renameBoard}>edit board</button>
                </div>
-               <div class="flex space-x-5 border-2 border-green-500">
+               <div class="flex space-x-5">
                     {#each $BoardStore as board (board.id)}
                          {#if board.id === specificId}
                               {#each board.status as status}

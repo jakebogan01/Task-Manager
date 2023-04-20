@@ -21,7 +21,7 @@ const BoardStore = writable([
   {
     id: 2,
     title: "Board 2",
-    status: ["TODO", "DOING", "DONE"],
+    status: ["TODO", "DOING", "DONE", "EXAMPLE", "TESTING"],
     tasks: [
       {
         id: 1,

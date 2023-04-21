@@ -12,6 +12,7 @@
      let createBoard = false;
      let deleteBoardModal = false;
      let createAnotherBoard = false;
+     let addNewColumn = false;
 
      let boardFields = { title: "" };
      let numberOfColumns = [1];
@@ -22,6 +23,7 @@
           currentBoardTitle = title;
           enableButton = false;
           hideWelcomeMessage = true;
+          addNewColumn = true;
      };
 
      const createTask = () => {
@@ -238,11 +240,13 @@
                          </div>
                     </div>
                </div>
-               <div class="relative flex-1 flex w-full space-x-5 pt-6 pl-6 overflow-x-auto">
+               <div class="relative flex-1 flex w-full space-x-5 py-6 px-6 overflow-x-auto">
                     {#if $BoardStore.length > 0}
-                         <div class:hidden={hideWelcomeMessage} class="flex-1 flex flex-col justify-center items-center">
-                              <p class="font-bold text-lg text-[#828FA3] opacity-50">Select a board to manage.</p>
-                         </div>
+                         {#if !hideWelcomeMessage}
+                              <div class="flex-1 flex flex-col justify-center items-center">
+                                   <p class="font-bold text-lg text-[#828FA3] opacity-50">Select a board to manage.</p>
+                              </div>
+                         {/if}
                          {#each $BoardStore as board (board?.id)}
                               {#if board?.id === specificId}
                                    {#each board?.status as status}
@@ -264,18 +268,13 @@
                                    {/each}
                               {/if}
                          {/each}
-                    {:else}
-                         <!-- <div class="flex-1 flex justify-center items-center">
-                              <div class="flex flex-col items-center space-y-6">
-                                   <p class="font-bold text-lg text-[#828FA3]">This board is empty. Create a new column to get started.</p>
-                                   <button type="button" class="flex items-center justify-center space-x-1 text-white font-bold text-[0.9375rem] h-12 w-[10.5rem] bg-[#635FC7] rounded-full" on:click={createColumn}>
-                                        <span>
-                                             <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M3.11001 8V5.09H0.200012V3.395H3.11001V0.5H4.80501V3.395H7.70001V5.09H4.80501V8H3.11001Z" fill="currentColor"/></svg>
-                                        </span>
-                                        <span>Add New Column</span>
-                                   </button>
+                         {#if addNewColumn}
+                              <div on:click={createColumn} on:keydown={()=>{}} class="flex items-center justify-center space-x-2 max-w-[17.5rem] rounded-lg text-[#828FA3] text-2xl font-bold bg-[#E9EFFB] cursor-pointer" style="flex: 0 0 100%;">
+                                   <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M7.368 12V7.344H12V4.632H7.368V0H4.656v4.632H0v2.712h4.656V12z"/></svg>
+                                   <span>Add New Column</span>
                               </div>
-                         </div> -->
+                         {/if}
+                    {:else}
                          <div class="flex-1 flex justify-center items-center">
                               <div class="flex flex-col items-center space-y-6">
                                    <p class="font-bold text-lg text-[#828FA3]">There are no boards. Create a new board to get started.</p>

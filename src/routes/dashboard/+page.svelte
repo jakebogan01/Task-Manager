@@ -7,13 +7,16 @@
      let active = false;
      let showBoardSettings = true;
      let enableButton = true;
+     let hideWelcomeMessage = false;
      let numberOfBoards = 0;
+     let hideSidebar = false;
 
      const findBoard = (id, title) => {
           specificId = id;
           currentBoardTitle = title;
           active = true;
-          enableNewTaskButton = false;
+          enableButton = false;
+          hideWelcomeMessage = true;
      };
 
      const createBoard = () => {
@@ -132,7 +135,7 @@
 
 <div class:dark={darkTheme}>
      <div class="relative flex min-h-screen bg-[#F4F7FD] dark:bg-[#20212C] overflow-hidden">
-          <div class="absolute top-0 left-0 flex flex-col min-w-[18.75rem] bg-white min-h-screen border-r border-[#E4EBFA] w-[18.75rem] text-[#828FA3]">
+          <div class="absolute top-0 flex flex-col min-w-[18.75rem] max-w-[18.75rem] bg-white min-h-screen border-r border-[#E4EBFA] text-[#828FA3] {hideSidebar ? "-left-[18.75rem]" : "left-0"} ease-in-out duration-500">
                <img src="/logo-light.svg" class="mx-auto mt-[2.125rem] mb-14" alt="app manageit logo">
                <span class="pl-8 font-bold text-xs">ALL BOARDS ( {numberOfBoards} )</span>
                <div class="mt-5">
@@ -143,7 +146,7 @@
                                    <span>{board?.title}</span>
                               </li>
                          {/each}
-                         <li class="flex items-center space-x-4 pl-8 mr-6 py-[0.8rem] font-bold text-[0.9375rem] rounded-tr-full rounded-br-full text-[#635FC7] cursor-pointer" on:click={createBoard} on:keydown={()=>{}}>
+                         <li class="flex items-center space-x-4 pl-8 py-[0.8rem] font-bold text-[0.9375rem] rounded-tr-full rounded-br-full text-[#635FC7] cursor-pointer" on:click={createBoard} on:keydown={()=>{}}>
                               <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M0 2.889A2.889 2.889 0 0 1 2.889 0H13.11A2.889 2.889 0 0 1 16 2.889V13.11A2.888 2.888 0 0 1 13.111 16H2.89A2.889 2.889 0 0 1 0 13.111V2.89Zm1.333 5.555v4.667c0 .859.697 1.556 1.556 1.556h6.889V8.444H1.333Zm8.445-1.333V1.333h-6.89A1.556 1.556 0 0 0 1.334 2.89V7.11h8.445Zm4.889-1.333H11.11v4.444h3.556V5.778Zm0 5.778H11.11v3.11h2a1.556 1.556 0 0 0 1.556-1.555v-1.555Zm0-7.112V2.89a1.555 1.555 0 0 0-1.556-1.556h-2v3.111h3.556Z" fill="currentColor"/></svg>
                               <span class="flex items-center space-x-1">
                                    <span>
@@ -164,14 +167,14 @@
                          <img src="/icon-dark-theme.svg" alt="dark theme">
                     </div>
                     <div class="mt-6 mb-12">
-                         <button type="button" class="flex items-center space-x-4">
+                         <button type="button" on:click={() => { hideSidebar = true; }} class="flex items-center space-x-4">
                               <img src="/icon-hide-sidebar.svg" alt="hide icon">
                               <span>Hide Sidebar</span>
                          </button>
                     </div>
                </div>
           </div>
-          <div class="flex-1 flex flex-col ml-[18.75rem]">
+          <div class="flex-1 flex flex-col {hideSidebar ? "ml-0" : "ml-[18.75rem]"} ease-in-out duration-500">
                <div class="flex items-center justify-between bg-white px-6 h-[6.0625rem] border-b border-[#E4EBFA]">
                     <h1 class="font-bold text-black text-2xl">{currentBoardTitle}</h1>
                     <div class="flex items-center space-x-6">
@@ -193,8 +196,12 @@
                          </div>
                     </div>
                </div>
-               <div class="flex-1 flex w-full space-x-5 pt-6 pl-6 overflow-x-auto">
+               <div class="relative flex-1 flex w-full space-x-5 pt-6 pl-6 overflow-x-auto">
                     {#if $BoardStore.length > 0}
+                         <div class:hidden={hideWelcomeMessage} class="flex-1 flex flex-col justify-center items-center">
+                              <p class="font-bold text-lg text-[#828FA3] opacity-50">Welcome back!</p>
+                              <p class="font-bold text-lg text-[#828FA3] opacity-50">Select one of your boards.</p>
+                         </div>
                          {#each $BoardStore as board (board?.id)}
                               {#if board?.id === specificId}
                                    {#each board?.status as status}
@@ -239,6 +246,9 @@
                               </div>
                          </div>
                     {/if}
+                    <button type="button" on:click={() => { hideSidebar = false; }} class="absolute bottom-8 -left-6 justify-center items-center w-14 h-12 bg-[#635FC7] rounded-tr-full rounded-br-full {hideSidebar ? "flex" : "hidden"}">
+                         <img src="/icon-show-sidebar.svg" alt="show sidebar icon" class="object-contain">
+                    </button>
                </div>
           </div>
      </div>

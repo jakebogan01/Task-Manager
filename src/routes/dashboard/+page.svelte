@@ -58,15 +58,7 @@
                return;
           }
 
-          BoardStore.update(currentBoards => {
-               let copiedBoards = [...currentBoards];
-               let updatedBoard = copiedBoards.find(board => board.id === specificId);
-               
-               updatedBoard.title = "I Renamed this board";
-               currentBoardTitle = updatedBoard.title;
-
-               return copiedBoards;
-          });
+          createBoard = true;
      };
 
      const deleteTask = (id) => {
@@ -112,34 +104,46 @@
      }
 
      const handleBoardCreation = (id) => {
-          let newId = id + 1;
-
           const upper = arrayOfStatuses.map(element => {
                return element.toUpperCase();
           });
 
-          let board = {
-               id: newId,
-               title: boardFields.title.trim(),
-               status: [...upper],
-               tasks: [
-                    {
-                         id: 1,
-                         title: "task 1",
-                         status: "TODO",
-                    },
-                    {
-                         id: 2,
-                         title: "task 2",
-                         status: "DOING",
-                    },
-               ],
-          };
+          if (specificId == null) {
+               let newId = id + 1;
 
-          BoardStore.update(currentBoards => {
-               return [...currentBoards, board];
-          });
-          
+               let board = {
+                    id: newId,
+                    title: boardFields.title.trim(),
+                    status: [...upper],
+                    tasks: [
+                         {
+                              id: 1,
+                              title: "task 1",
+                              status: "TODO",
+                         },
+                         {
+                              id: 2,
+                              title: "task 2",
+                              status: "DOING",
+                         },
+                    ],
+               };
+
+               BoardStore.update(currentBoards => {
+                    return [...currentBoards, board];
+               });
+          } else {
+               BoardStore.update(currentBoards => {
+                    let copiedBoards = [...currentBoards];
+                    let updatedBoard = copiedBoards.find(board => board.id === specificId);
+                    
+                    updatedBoard.title = boardFields.title.trim();
+                    currentBoardTitle = updatedBoard.title;
+
+                    return copiedBoards;
+               });
+          }
+
           boardFields.title = "";
           arrayOfStatuses = [];
           numberOfColumns = [1];
@@ -226,8 +230,7 @@
                <div class="relative flex-1 flex w-full space-x-5 pt-6 pl-6 overflow-x-auto">
                     {#if $BoardStore.length > 0}
                          <div class:hidden={hideWelcomeMessage} class="flex-1 flex flex-col justify-center items-center">
-                              <p class="font-bold text-lg text-[#828FA3] opacity-50">Welcome back!</p>
-                              <p class="font-bold text-lg text-[#828FA3] opacity-50">Select one of your boards.</p>
+                              <p class="font-bold text-lg text-[#828FA3] opacity-50">Select a board to manage.</p>
                          </div>
                          {#each $BoardStore as board (board?.id)}
                               {#if board?.id === specificId}
@@ -315,41 +318,56 @@
                                         <div class="mt-3">
                                              <h3 class="text-base font-semibold leading-6 text-gray-900 text-center" id="modal-title">Add New Board</h3>
                                              <div class="mt-2">
-                                                  <div>
-                                                       <label for="title" class="block text-sm font-bold leading-6 text-[#828FA3]">Name</label>
-                                                       <div class="mt-2">
-                                                            <input type="text" bind:value={boardFields.title} name="title" id="title" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. Web Design" required>
+                                                  {#if specificId == null}
+                                                       <div>
+                                                            <label for="title" class="block text-sm font-bold leading-6 text-[#828FA3]">Name</label>
+                                                            <div class="mt-2">
+                                                                 <input type="text" bind:value={boardFields.title} name="title" id="title" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. Web Design" required>
+                                                            </div>
                                                        </div>
-                                                  </div>
-                                                  <div class="mt-5">
-                                                       <span class="block text-sm font-bold leading-6 text-[#828FA3]">Columns</span>
-                                                       <div class="mt-2 space-y-4">
-                                                            {#each numberOfColumns as item, i}
-                                                                 <div class="flex items-center space-x-4">
-                                                                      <input type="text" bind:value={arrayOfStatuses[i]} class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. ToDo" required>
-                                                                      <button type="button" on:click={()=>{addColumnOptions(item, i)}} class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                                                           <span class="sr-only">Close</span>
-                                                                           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                                                      </button>
+                                                       <div class="mt-5">
+                                                            <span class="block text-sm font-bold leading-6 text-[#828FA3]">Columns</span>
+                                                            <div class="mt-2 space-y-4">
+                                                                 {#each numberOfColumns as item, i}
+                                                                      <div class="flex items-center space-x-4">
+                                                                           <input type="text" bind:value={arrayOfStatuses[i]} class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. ToDo" required>
+                                                                           <button type="button" on:click={()=>{addColumnOptions(item, i)}} class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                                                                <span class="sr-only">Close</span>
+                                                                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                                                           </button>
+                                                                      </div>
+                                                                 {/each}
+                                                            </div>
+                                                       </div>
+                                                  {:else}
+                                                       {#each $BoardStore as board (board?.id)}
+                                                            {#if board?.id === specificId}
+                                                                 <div>
+                                                                      <label for="title" class="block text-sm font-bold leading-6 text-[#828FA3]">Name</label>
+                                                                      <div class="mt-2">
+                                                                           <input type="text" bind:value={boardFields.title} name="title" id="title" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder={board.title} required>
+                                                                      </div>
                                                                  </div>
-                                                            {/each}
-                                                       </div>
-                                                  </div>
+                                                            {/if}
+                                                       {/each}
+                                                  {/if}
                                              </div>
                                         </div>
                                    </div>
                                    <div class="mt-5 sm:mt-8">
-                                        <button type="button" on:click={()=>{numberOfColumns = [...numberOfColumns, numberOfColumns.length + 1]}} class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] bg-opacity-20 px-3 h-10 text-sm font-semibold text-[#635FC7] hover:text-white shadow-sm hover:bg-[#635FC7] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">
-                                             <span class="flex items-center space-x-1">
-                                                  <span>
-                                                       <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.11001 8V5.09H0.200012V3.395H3.11001V0.5H4.80501V3.395H7.70001V5.09H4.80501V8H3.11001Z" fill="currentColor"/></svg>
+                                        {#if specificId == null}
+                                             <button type="button" on:click={()=>{numberOfColumns = [...numberOfColumns, numberOfColumns.length + 1]}} class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] bg-opacity-20 px-3 h-10 text-sm font-semibold text-[#635FC7] hover:text-white shadow-sm hover:bg-[#635FC7] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">
+                                                  <span class="flex items-center space-x-1">
+                                                       <span>
+                                                            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.11001 8V5.09H0.200012V3.395H3.11001V0.5H4.80501V3.395H7.70001V5.09H4.80501V8H3.11001Z" fill="currentColor"/></svg>
+                                                       </span>
+                                                       <span>Add New Column</span>
                                                   </span>
-                                                  <span>Add New Column</span>
-                                             </span>
-                                        </button>
+                                             </button>
+                                        {/if}
                                    </div>
                                    <div class="mt-5 sm:mt-4 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-                                        <button type="submit" class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] px-3 h-10 text-sm font-semibold text-white shadow-sm hover:bg-[#A8A4FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">Create Board</button>
+                                        <button type="submit" class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] px-3 h-10 text-sm font-semibold text-white shadow-sm hover:bg-[#A8A4FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">{(specificId == null) ? "Create Board" : "Update Board"}</button>
                                         <button type="button" on:click={()=>{createBoard = false;}} class="mt-3 inline-flex w-full justify-center items-center rounded-md bg-[#EA5555] px-3 h-10 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#FF9898] sm:col-start-1 sm:mt-0">Cancel</button>
                                    </div>
                               </form>

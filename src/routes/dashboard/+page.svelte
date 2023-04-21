@@ -60,6 +60,7 @@
 
           deleteBoardModal = false;
           showBoardSettings = false;
+          currentBoardTitle = "";
      }
 
      const renameBoard = () => {
@@ -217,7 +218,7 @@
                <div class="flex items-center justify-between bg-white px-6 h-[6.0625rem] border-b border-[#E4EBFA]">
                     <h1 class="font-bold text-black capitalize text-2xl">{currentBoardTitle}</h1>
                     <div class="flex items-center space-x-6">
-                         <button type="button" class="flex items-center justify-center space-x-1 text-white font-bold text-[0.9375rem] h-12 w-[10.5rem] bg-[#635FC7] bg-opacity-20 rounded-full" on:click={createTask} disabled={enableButton}>
+                         <button type="button" class="flex items-center justify-center space-x-1 text-white font-bold text-[0.9375rem] h-12 w-[10.5rem] bg-[#635FC7] rounded-full {enableButton ? "bg-opacity-20" : ""}" on:click={createTask} disabled={enableButton}>
                               <span>
                                    <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M3.11001 8V5.09H0.200012V3.395H3.11001V0.5H4.80501V3.395H7.70001V5.09H4.80501V8H3.11001Z" fill="currentColor"/></svg>
                               </span>
@@ -378,7 +379,7 @@
                                    </div>
                                    <div class="mt-5 sm:mt-4 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
                                         <button type="submit" class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] px-3 h-10 text-sm font-semibold text-white shadow-sm hover:bg-[#A8A4FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">{(specificId == null) ? "Create Board" : "Update Board"}</button>
-                                        <button type="button" on:click={()=>{createBoard = false; createAnotherBoard = false;}} class="mt-3 inline-flex w-full justify-center items-center rounded-md bg-[#EA5555] px-3 h-10 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#FF9898] sm:col-start-1 sm:mt-0">Cancel</button>
+                                        <button type="button" on:click={()=>{createBoard = false; createAnotherBoard = false; showBoardSettings = false;}} class="mt-3 inline-flex w-full justify-center items-center rounded-md bg-[#EA5555] px-3 h-10 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#FF9898] sm:col-start-1 sm:mt-0">Cancel</button>
                                    </div>
                               </form>
                          </div>
@@ -420,7 +421,7 @@
                                         <p class="font-medium text-[0.8125rem] text-[#828FA3] pb-4 pt-6">Are you sure you want to delete the ‘Platform Launch’ board? This action will remove all columns and tasks and cannot be reversed.</p>
                                    </div>
                                    <div class="mt-5 sm:mt-4 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-                                        <button type="button" on:click={()=>{deleteBoardModal = false}} class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] px-3 h-10 text-sm font-semibold text-white shadow-sm hover:bg-[#A8A4FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">Cancel</button>
+                                        <button type="button" on:click={()=>{deleteBoardModal = false; showBoardSettings = false;}} class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] px-3 h-10 text-sm font-semibold text-white shadow-sm hover:bg-[#A8A4FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">Cancel</button>
                                         <button type="button" on:click={handleDeleteBoard} class="mt-3 inline-flex w-full justify-center items-center rounded-md bg-[#EA5555] px-3 h-10 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#FF9898] sm:col-start-1 sm:mt-0">Delete</button>
                                    </div>
                               </form>

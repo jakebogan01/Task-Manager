@@ -1,17 +1,19 @@
 <script>
-     import { onMount } from "svelte";
      import BoardStore from "../../stores/boardStore";
 
      let specificId;
      let currentBoardTitle = "";
      let darkTheme = false;
      let active = false;
+     let showBoardSettings = true;
+     let enableButton = true;
      let numberOfBoards = 0;
 
      const findBoard = (id, title) => {
           specificId = id;
           currentBoardTitle = title;
           active = true;
+          enableNewTaskButton = false;
      };
 
      const createBoard = () => {
@@ -39,6 +41,10 @@
      }
 
      const createTask = () => {
+          if (specificId == null) {
+               return;
+          }
+          
           let task = {
                id: 3,
                title: "task 3",
@@ -56,17 +62,26 @@
      };
 
      const deleteBoard = () => {
+          if (specificId == null) {
+               return;
+          }
+
           BoardStore.update(currentBoards => {
                return currentBoards.filter(board => board.id !== specificId);
           });
      };
 
      const renameBoard = () => {
+          if (specificId == null) {
+               return;
+          }
+
           BoardStore.update(currentBoards => {
                let copiedBoards = [...currentBoards];
                let updatedBoard = copiedBoards.find(board => board.id === specificId);
                
                updatedBoard.title = "I Renamed this board";
+               currentBoardTitle = updatedBoard.title;
 
                return copiedBoards;
           });
@@ -113,10 +128,6 @@
      const changeTheme = () => {
           darkTheme = !darkTheme;
      }
-
-     // onMount(() => {
-     //      console.log(BoardStore)
-     // })
 </script>
 
 <div class:dark={darkTheme}>
@@ -164,20 +175,20 @@
                <div class="flex items-center justify-between bg-white px-6 h-[6.0625rem] border-b border-[#E4EBFA]">
                     <h1 class="font-bold text-black text-2xl">{currentBoardTitle}</h1>
                     <div class="flex items-center space-x-6">
-                         <button type="button" class="flex items-center justify-center space-x-1 text-white font-bold text-[0.9375rem] h-12 w-[10.5rem] bg-[#635FC7] bg-opacity-20 rounded-full" on:click={createTask}>
+                         <button type="button" class="flex items-center justify-center space-x-1 text-white font-bold text-[0.9375rem] h-12 w-[10.5rem] bg-[#635FC7] bg-opacity-20 rounded-full" on:click={createTask} disabled={enableButton}>
                               <span>
                                    <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M3.11001 8V5.09H0.200012V3.395H3.11001V0.5H4.80501V3.395H7.70001V5.09H4.80501V8H3.11001Z" fill="currentColor"/></svg>
                               </span>
                               <span>Add New Task</span>
                          </button>
                          <div class="relative">
-                              <button type="button" class="-m-2.5 block p-2.5 text-gray-400 hover:text-gray-500" id="options-menu-1-button" aria-expanded="false" aria-haspopup="true">
+                              <button on:click={() => { showBoardSettings = !showBoardSettings; }} type="button" class="-m-2.5 block p-2.5 text-gray-400 hover:text-gray-500" id="options-menu-1-button" aria-expanded="false" aria-haspopup="true">
                                    <span class="sr-only">Open options</span>
                                    <svg width="5" height="20" xmlns="http://www.w3.org/2000/svg"><g fill="#828FA3" fill-rule="evenodd"><circle cx="2.308" cy="2.308" r="2.308"/><circle cx="2.308" cy="10" r="2.308"/><circle cx="2.308" cy="17.692" r="2.308"/></g></svg>
                               </button>
-                              <div class="absolute right-0 z-10 mt-0.5 w-36 py-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-gray-900/5 focus:outline-none overflow-hidden" role="menu" aria-orientation="vertical" aria-labelledby="options-menu-1-button" tabindex="-1">
-                                   <a href="#" on:click={renameBoard} class="block px-3 py-1 font-medium text-[0.8125rem] leading-6 text-[#828FA3] hover:bg-gray-50" role="menuitem" tabindex="-1" id="options-menu-1-item-0">Edit Board<span class="sr-only">Edit Board</span></a>
-                                   <a href="#" on:click={deleteBoard} class="block px-3 py-1 font-medium text-[0.8125rem] leading-6 text-[#EA5555] hover:bg-gray-50" role="menuitem" tabindex="-1" id="options-menu-1-item-1">Delete Board<span class="sr-only">Delete Board</span></a>
+                              <div class:hidden={showBoardSettings} class="absolute right-0 z-10 mt-0.5 w-36 py-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-gray-900/5 focus:outline-none overflow-hidden" role="menu" aria-orientation="vertical" aria-labelledby="options-menu-1-button" tabindex="-1">
+                                   <button type="button" on:click={renameBoard} class="block w-full px-3 py-1 font-medium text-[0.8125rem] leading-6 text-[#828FA3] text-left hover:bg-gray-50" role="menuitem" tabindex="-1" id="options-menu-1-item-0">Edit Board<span class="sr-only" disabled={enableButton}>Edit Board</span></button>
+                                   <button type="button" on:click={deleteBoard} class="block w-full px-3 py-1 font-medium text-[0.8125rem] leading-6 text-[#EA5555] text-left hover:bg-gray-50" role="menuitem" tabindex="-1" id="options-menu-1-item-1">Delete Board<span class="sr-only" disabled={enableButton}>Delete Board</span></button>
                               </div>
                          </div>
                     </div>

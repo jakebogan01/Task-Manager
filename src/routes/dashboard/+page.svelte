@@ -4,11 +4,12 @@
      let specificId;
      let currentBoardTitle = "";
      let darkTheme = false;
-     let showBoardSettings = true;
+     let showBoardSettings = false;
      let enableButton = true;
      let hideWelcomeMessage = false;
      let numberOfBoards = 0;
      let hideSidebar = false;
+     let createBoard = false;
 
      const findBoard = (id, title) => {
           specificId = id;
@@ -16,30 +17,6 @@
           enableButton = false;
           hideWelcomeMessage = true;
      };
-
-     const createBoard = () => {
-          let board = {
-               id: 3,
-               title: "Board 3",
-               status: ["TODO", "DOING", "DONE"],
-               tasks: [
-                    {
-                         id: 1,
-                         title: "task 1",
-                         status: "TODO",
-                    },
-                    {
-                         id: 2,
-                         title: "task 2",
-                         status: "DOING",
-                    },
-               ],
-          };
-
-          BoardStore.update(currentBoards => {
-               return [...currentBoards, board];
-          });
-     }
 
      const createTask = () => {
           if (specificId == null) {
@@ -129,7 +106,32 @@
      const changeTheme = () => {
           darkTheme = !darkTheme;
      }
-     let a;
+
+     const handleBoardCreation = () => {
+          let board = {
+               id: 3,
+               title: "Board 3",
+               status: ["TODO", "DOING", "DONE"],
+               tasks: [
+                    {
+                         id: 1,
+                         title: "task 1",
+                         status: "TODO",
+                    },
+                    {
+                         id: 2,
+                         title: "task 2",
+                         status: "DOING",
+                    },
+               ],
+          };
+
+          BoardStore.update(currentBoards => {
+               return [...currentBoards, board];
+          });
+          
+          createBoard = false;
+     }
 </script>
 
 <div class:dark={darkTheme}>
@@ -145,7 +147,7 @@
                                    <span>{board?.title}</span>
                               </li>
                          {/each}
-                         <li class="flex items-center space-x-4 pl-8 py-[0.8rem] font-bold text-[0.9375rem] rounded-tr-full rounded-br-full text-[#635FC7] cursor-pointer" on:click={createBoard} on:keydown={()=>{}}>
+                         <li class="flex items-center space-x-4 pl-8 py-[0.8rem] font-bold text-[0.9375rem] rounded-tr-full rounded-br-full text-[#635FC7] cursor-pointer" on:click={()=>{createBoard = true;}} on:keydown={()=>{}}>
                               <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M0 2.889A2.889 2.889 0 0 1 2.889 0H13.11A2.889 2.889 0 0 1 16 2.889V13.11A2.888 2.888 0 0 1 13.111 16H2.89A2.889 2.889 0 0 1 0 13.111V2.89Zm1.333 5.555v4.667c0 .859.697 1.556 1.556 1.556h6.889V8.444H1.333Zm8.445-1.333V1.333h-6.89A1.556 1.556 0 0 0 1.334 2.89V7.11h8.445Zm4.889-1.333H11.11v4.444h3.556V5.778Zm0 5.778H11.11v3.11h2a1.556 1.556 0 0 0 1.556-1.555v-1.555Zm0-7.112V2.89a1.555 1.555 0 0 0-1.556-1.556h-2v3.111h3.556Z" fill="currentColor"/></svg>
                               <span class="flex items-center space-x-1">
                                    <span>
@@ -188,10 +190,12 @@
                                    <span class="sr-only">Open options</span>
                                    <svg width="5" height="20" xmlns="http://www.w3.org/2000/svg"><g fill="#828FA3" fill-rule="evenodd"><circle cx="2.308" cy="2.308" r="2.308"/><circle cx="2.308" cy="10" r="2.308"/><circle cx="2.308" cy="17.692" r="2.308"/></g></svg>
                               </button>
-                              <div class:hidden={showBoardSettings} class="absolute right-0 z-10 mt-0.5 w-36 py-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-gray-900/5 focus:outline-none overflow-hidden" role="menu" aria-orientation="vertical" aria-labelledby="options-menu-1-button" tabindex="-1">
-                                   <button type="button" on:click={renameBoard} class="block w-full px-3 py-1 font-medium text-[0.8125rem] leading-6 text-[#828FA3] text-left hover:bg-gray-50" role="menuitem" tabindex="-1" id="options-menu-1-item-0">Edit Board<span class="sr-only" disabled={enableButton}>Edit Board</span></button>
-                                   <button type="button" on:click={deleteBoard} class="block w-full px-3 py-1 font-medium text-[0.8125rem] leading-6 text-[#EA5555] text-left hover:bg-gray-50" role="menuitem" tabindex="-1" id="options-menu-1-item-1">Delete Board<span class="sr-only" disabled={enableButton}>Delete Board</span></button>
-                              </div>
+                              {#if showBoardSettings}
+                                   <div class="absolute right-0 z-10 mt-0.5 w-36 py-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-gray-900/5 focus:outline-none overflow-hidden" role="menu" aria-orientation="vertical" aria-labelledby="options-menu-1-button" tabindex="-1">
+                                        <button type="button" on:click={renameBoard} class="block w-full px-3 py-1 font-medium text-[0.8125rem] leading-6 text-[#828FA3] text-left hover:bg-gray-50" role="menuitem" tabindex="-1" id="options-menu-1-item-0">Edit Board<span class="sr-only" disabled={enableButton}>Edit Board</span></button>
+                                        <button type="button" on:click={deleteBoard} class="block w-full px-3 py-1 font-medium text-[0.8125rem] leading-6 text-[#EA5555] text-left hover:bg-gray-50" role="menuitem" tabindex="-1" id="options-menu-1-item-1">Delete Board<span class="sr-only" disabled={enableButton}>Delete Board</span></button>
+                                   </div>
+                              {/if}
                          </div>
                     </div>
                </div>
@@ -207,13 +211,13 @@
                                         <div class="max-w-[17.5rem] space-y-5" style="flex: 0 0 100%;">
                                              <h4 class="flex items-center space-x-3 mb-6 font-bold text-sm text-[#828FA3]">
                                                   <span class="block bg-red-500 rounded-full w-[0.9375rem] h-[0.9375rem]"></span>
-                                                  <span>{status} ( {0} )</span>
+                                                  <span>{status} ( {numberOfBoards} )</span>
                                              </h4>
                                              {#each board?.tasks as task}
                                                   {#if task?.status === status}
-                                                  {a = task?.status}
-                                                       <div class="bg-white rounded-lg pt-[1.625rem] px-4 pb-6 drop-shadow-md">
-                                                            <p on:click={() => deleteTask(task?.id)} on:keydown={()=>{}}>{task?.title}</p>
+                                                       <div class="bg-white rounded-lg pt-[1.625rem] px-4 pb-6 drop-shadow-md cursor-pointer">
+                                                            <h5 on:click={() => deleteTask(task?.id)} on:keydown={()=>{}} class="font-bold">{task?.title}</h5>
+                                                            <span class="font-bold text-xs text-[#828FA3]">0 of 2 substasks</span>
                                                             <p on:click={() => editTask(task?.id)} on:keydown={()=>{}}>edit</p>
                                                        </div>                                        
                                                   {/if}
@@ -237,7 +241,7 @@
                          <div class="flex-1 flex justify-center items-center">
                               <div class="flex flex-col items-center space-y-6">
                                    <p class="font-bold text-lg text-[#828FA3]">There are no boards. Create a new board to get started.</p>
-                                   <button type="button" class="flex items-center justify-center space-x-1 text-white font-bold text-[0.9375rem] h-12 w-48 bg-[#635FC7] rounded-full" on:click={createBoard}>
+                                   <button type="button" on:click={()=>{createBoard = true;}} class="flex items-center justify-center space-x-1 text-white font-bold text-[0.9375rem] h-12 w-48 bg-[#635FC7] rounded-full">
                                         <span>
                                              <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M3.11001 8V5.09H0.200012V3.395H3.11001V0.5H4.80501V3.395H7.70001V5.09H4.80501V8H3.11001Z" fill="currentColor"/></svg>
                                         </span>
@@ -252,4 +256,80 @@
                </div>
           </div>
      </div>
+
+
+     <!-- modals -->
+     {#if createBoard}
+          <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+          <!--
+          Background backdrop, show/hide based on modal state.
+
+          Entering: "ease-out duration-300"
+          From: "opacity-0"
+          To: "opacity-100"
+          Leaving: "ease-in duration-200"
+          From: "opacity-100"
+          To: "opacity-0"
+          -->
+               <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+               <div class="fixed inset-0 z-10 overflow-y-auto">
+                    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <!--
+                    Modal panel, show/hide based on modal state.
+
+                    Entering: "ease-out duration-300"
+                    From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    To: "opacity-100 translate-y-0 sm:scale-100"
+                    Leaving: "ease-in duration-200"
+                    From: "opacity-100 translate-y-0 sm:scale-100"
+                    To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    -->
+                         <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                              <form on:submit|preventDefault={handleBoardCreation}>
+                                   <div>
+                                        <div class="mt-3">
+                                             <h3 class="text-base font-semibold leading-6 text-gray-900 text-center" id="modal-title">Add New Board</h3>
+                                             <div class="mt-2">
+                                                  <div>
+                                                       <label for="title" class="block text-sm font-bold leading-6 text-[#828FA3]">Name</label>
+                                                       <div class="mt-2">
+                                                            <input type="text" name="title" id="title" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. Web Design" required>
+                                                       </div>
+                                                  </div>
+                                                  <div class="mt-5">
+                                                       <label class="block text-sm font-bold leading-6 text-[#828FA3]">Columns</label>
+                                                       <div class="mt-2">
+                                                            <div class="flex items-center space-x-4">
+                                                                 <input type="text" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. ToDo" required>
+                                                                 <button type="button" class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                                                      <span class="sr-only">Close</span>
+                                                                      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                                                 </button>
+                                                            </div>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                   </div>
+                                   <div class="mt-5 sm:mt-8">
+                                        <button type="button" class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] bg-opacity-20 px-3 h-10 text-sm font-semibold text-[#635FC7] hover:text-white shadow-sm hover:bg-[#635FC7] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">
+                                             <span class="flex items-center space-x-1">
+                                                  <span>
+                                                       <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.11001 8V5.09H0.200012V3.395H3.11001V0.5H4.80501V3.395H7.70001V5.09H4.80501V8H3.11001Z" fill="currentColor"/></svg>
+                                                  </span>
+                                                  <span>Add New Column</span>
+                                             </span>
+                                        </button>
+                                   </div>
+                                   <div class="mt-5 sm:mt-4 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+                                        <button type="submit" class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] px-3 h-10 text-sm font-semibold text-white shadow-sm hover:bg-[#A8A4FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">Create Board</button>
+                                        <button type="button" on:click={()=>{createBoard = false;}} class="mt-3 inline-flex w-full justify-center items-center rounded-md bg-[#EA5555] px-3 h-10 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#FF9898] sm:col-start-1 sm:mt-0">Cancel</button>
+                                   </div>
+                              </form>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     {/if}
 </div>

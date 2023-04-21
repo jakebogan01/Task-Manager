@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  transition-duration: 200ms;
-}
 body {
   background-color: rgb(17 24 39);
 }

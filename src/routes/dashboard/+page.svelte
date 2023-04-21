@@ -113,10 +113,15 @@
 
      const handleBoardCreation = (id) => {
           let newId = id + 1;
+
+          const upper = arrayOfStatuses.map(element => {
+               return element.toUpperCase();
+          });
+
           let board = {
                id: newId,
                title: boardFields.title.trim(),
-               status: [...arrayOfStatuses],
+               status: [...upper],
                tasks: [
                     {
                          id: 1,
@@ -317,7 +322,7 @@
                                                        </div>
                                                   </div>
                                                   <div class="mt-5">
-                                                       <label class="block text-sm font-bold leading-6 text-[#828FA3]">Columns</label>
+                                                       <span class="block text-sm font-bold leading-6 text-[#828FA3]">Columns</span>
                                                        <div class="mt-2 space-y-4">
                                                             {#each numberOfColumns as item, i}
                                                                  <div class="flex items-center space-x-4">

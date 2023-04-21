@@ -4,7 +4,6 @@
      let specificId;
      let currentBoardTitle = "";
      let darkTheme = false;
-     let active = false;
      let showBoardSettings = true;
      let enableButton = true;
      let hideWelcomeMessage = false;
@@ -14,7 +13,6 @@
      const findBoard = (id, title) => {
           specificId = id;
           currentBoardTitle = title;
-          active = true;
           enableButton = false;
           hideWelcomeMessage = true;
      };
@@ -131,13 +129,14 @@
      const changeTheme = () => {
           darkTheme = !darkTheme;
      }
+     let a;
 </script>
 
 <div class:dark={darkTheme}>
      <div class="relative flex min-h-screen bg-[#F4F7FD] dark:bg-[#20212C] overflow-hidden">
           <div class="absolute top-0 flex flex-col min-w-[18.75rem] max-w-[18.75rem] bg-white min-h-screen border-r border-[#E4EBFA] text-[#828FA3] {hideSidebar ? "-left-[18.75rem]" : "left-0"} ease-in-out duration-500">
                <img src="/logo-light.svg" class="mx-auto mt-[2.125rem] mb-14" alt="app manageit logo">
-               <span class="pl-8 font-bold text-xs">ALL BOARDS ( {numberOfBoards} )</span>
+               <span class="pl-8 font-bold text-xs">ALL BOARDS ( {$BoardStore.length} )</span>
                <div class="mt-5">
                     <ul>
                          {#each $BoardStore as board (board?.id)}
@@ -208,10 +207,11 @@
                                         <div class="max-w-[17.5rem] space-y-5" style="flex: 0 0 100%;">
                                              <h4 class="flex items-center space-x-3 mb-6 font-bold text-sm text-[#828FA3]">
                                                   <span class="block bg-red-500 rounded-full w-[0.9375rem] h-[0.9375rem]"></span>
-                                                  <span>{status} ( 0 )</span>
+                                                  <span>{status} ( {0} )</span>
                                              </h4>
                                              {#each board?.tasks as task}
                                                   {#if task?.status === status}
+                                                  {a = task?.status}
                                                        <div class="bg-white rounded-lg pt-[1.625rem] px-4 pb-6 drop-shadow-md">
                                                             <p on:click={() => deleteTask(task?.id)} on:keydown={()=>{}}>{task?.title}</p>
                                                             <p on:click={() => editTask(task?.id)} on:keydown={()=>{}}>edit</p>

@@ -11,6 +11,10 @@
      let hideSidebar = false;
      let createBoard = false;
 
+     let boardFields = { title: "" };
+     let numberOfColumns = [1];
+     let arrayOfStatuses = [];
+
      const findBoard = (id, title) => {
           specificId = id;
           currentBoardTitle = title;
@@ -107,11 +111,12 @@
           darkTheme = !darkTheme;
      }
 
-     const handleBoardCreation = () => {
+     const handleBoardCreation = (id) => {
+          let newId = id + 1;
           let board = {
-               id: 3,
-               title: "Board 3",
-               status: ["TODO", "DOING", "DONE"],
+               id: newId,
+               title: boardFields.title.trim(),
+               status: [...arrayOfStatuses],
                tasks: [
                     {
                          id: 1,
@@ -130,7 +135,21 @@
                return [...currentBoards, board];
           });
           
+          boardFields.title = "";
+          arrayOfStatuses = [];
+          numberOfColumns = [1];
           createBoard = false;
+     }
+
+     const addColumnOptions = (i, x) => {
+          const index = numberOfColumns.indexOf(i);
+
+          if (index > -1) {
+               numberOfColumns.splice(index, 1);
+               arrayOfStatuses.splice(x, 1);
+               numberOfColumns = [...numberOfColumns];
+               arrayOfStatuses = [...arrayOfStatuses];
+          }
      }
 </script>
 
@@ -142,7 +161,7 @@
                <div class="mt-5">
                     <ul>
                          {#each $BoardStore as board (board?.id)}
-                              <li class="flex items-center space-x-4 pl-8 mr-6 py-[0.8rem] font-bold text-[0.9375rem] rounded-tr-full rounded-br-full cursor-pointer {(board?.id === specificId) ? " bg-[#635FC7] text-white" : ""}" on:click={() => findBoard(board?.id, board?.title)} on:keydown={()=>{}}>
+                              <li class="flex items-center space-x-4 pl-8 mr-6 py-[0.8rem] font-bold text-[0.9375rem] capitalize rounded-tr-full rounded-br-full cursor-pointer {(board?.id === specificId) ? " bg-[#635FC7] text-white" : ""}" on:click={() => findBoard(board?.id, board?.title)} on:keydown={()=>{}}>
                                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M0 2.889A2.889 2.889 0 0 1 2.889 0H13.11A2.889 2.889 0 0 1 16 2.889V13.11A2.888 2.888 0 0 1 13.111 16H2.89A2.889 2.889 0 0 1 0 13.111V2.89Zm1.333 5.555v4.667c0 .859.697 1.556 1.556 1.556h6.889V8.444H1.333Zm8.445-1.333V1.333h-6.89A1.556 1.556 0 0 0 1.334 2.89V7.11h8.445Zm4.889-1.333H11.11v4.444h3.556V5.778Zm0 5.778H11.11v3.11h2a1.556 1.556 0 0 0 1.556-1.555v-1.555Zm0-7.112V2.89a1.555 1.555 0 0 0-1.556-1.556h-2v3.111h3.556Z" fill="currentColor"/></svg>
                                    <span>{board?.title}</span>
                               </li>
@@ -177,7 +196,7 @@
           </div>
           <div class="flex-1 flex flex-col {hideSidebar ? "ml-0" : "ml-[18.75rem]"} ease-in-out duration-500">
                <div class="flex items-center justify-between bg-white px-6 h-[6.0625rem] border-b border-[#E4EBFA]">
-                    <h1 class="font-bold text-black text-2xl">{currentBoardTitle}</h1>
+                    <h1 class="font-bold text-black capitalize text-2xl">{currentBoardTitle}</h1>
                     <div class="flex items-center space-x-6">
                          <button type="button" class="flex items-center justify-center space-x-1 text-white font-bold text-[0.9375rem] h-12 w-[10.5rem] bg-[#635FC7] bg-opacity-20 rounded-full" on:click={createTask} disabled={enableButton}>
                               <span>
@@ -211,7 +230,7 @@
                                         <div class="max-w-[17.5rem] space-y-5" style="flex: 0 0 100%;">
                                              <h4 class="flex items-center space-x-3 mb-6 font-bold text-sm text-[#828FA3]">
                                                   <span class="block bg-red-500 rounded-full w-[0.9375rem] h-[0.9375rem]"></span>
-                                                  <span>{status} ( {numberOfBoards} )</span>
+                                                  <span class="uppercase">{status} ( {numberOfBoards} )</span>
                                              </h4>
                                              {#each board?.tasks as task}
                                                   {#if task?.status === status}
@@ -286,7 +305,7 @@
                     To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     -->
                          <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-                              <form on:submit|preventDefault={handleBoardCreation}>
+                              <form on:submit|preventDefault={()=>{handleBoardCreation($BoardStore.length)}}>
                                    <div>
                                         <div class="mt-3">
                                              <h3 class="text-base font-semibold leading-6 text-gray-900 text-center" id="modal-title">Add New Board</h3>
@@ -294,26 +313,28 @@
                                                   <div>
                                                        <label for="title" class="block text-sm font-bold leading-6 text-[#828FA3]">Name</label>
                                                        <div class="mt-2">
-                                                            <input type="text" name="title" id="title" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. Web Design" required>
+                                                            <input type="text" bind:value={boardFields.title} name="title" id="title" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. Web Design" required>
                                                        </div>
                                                   </div>
                                                   <div class="mt-5">
                                                        <label class="block text-sm font-bold leading-6 text-[#828FA3]">Columns</label>
-                                                       <div class="mt-2">
-                                                            <div class="flex items-center space-x-4">
-                                                                 <input type="text" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. ToDo" required>
-                                                                 <button type="button" class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                                                      <span class="sr-only">Close</span>
-                                                                      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                                                 </button>
-                                                            </div>
+                                                       <div class="mt-2 space-y-4">
+                                                            {#each numberOfColumns as item, i}
+                                                                 <div class="flex items-center space-x-4">
+                                                                      <input type="text" bind:value={arrayOfStatuses[i]} class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. ToDo" required>
+                                                                      <button type="button" on:click={()=>{addColumnOptions(item, i)}} class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                                                           <span class="sr-only">Close</span>
+                                                                           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                                                      </button>
+                                                                 </div>
+                                                            {/each}
                                                        </div>
                                                   </div>
                                              </div>
                                         </div>
                                    </div>
                                    <div class="mt-5 sm:mt-8">
-                                        <button type="button" class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] bg-opacity-20 px-3 h-10 text-sm font-semibold text-[#635FC7] hover:text-white shadow-sm hover:bg-[#635FC7] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">
+                                        <button type="button" on:click={()=>{numberOfColumns = [...numberOfColumns, numberOfColumns.length + 1]}} class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] bg-opacity-20 px-3 h-10 text-sm font-semibold text-[#635FC7] hover:text-white shadow-sm hover:bg-[#635FC7] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">
                                              <span class="flex items-center space-x-1">
                                                   <span>
                                                        <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.11001 8V5.09H0.200012V3.395H3.11001V0.5H4.80501V3.395H7.70001V5.09H4.80501V8H3.11001Z" fill="currentColor"/></svg>

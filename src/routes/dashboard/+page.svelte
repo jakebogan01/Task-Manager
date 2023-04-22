@@ -64,6 +64,7 @@
 
           deleteBoardModal = false;
           showBoardSettings = false;
+          showAddNewColumn = false;
           currentBoardTitle = "";
      }
 
@@ -150,6 +151,13 @@
                };
 
                BoardStore.update(currentBoards => {
+                    currentBoards.map((board) => {
+                         if (board.id === newId) {
+                              newId += 1;
+                              board.id = newId;
+                         }
+                    });
+                    
                     return [...currentBoards, board];
                });
           } else {
@@ -286,7 +294,7 @@
                          <div class="flex-1 flex justify-center items-center">
                               <div class="flex flex-col items-center space-y-6">
                                    <p class="font-bold text-lg text-[#828FA3]">There are no boards. Create a new board to get started.</p>
-                                   <button type="button" on:click={()=>{createBoard = true;}} class="flex items-center justify-center space-x-1 text-white font-bold text-[0.9375rem] h-12 w-48 bg-[#635FC7] rounded-full">
+                                   <button type="button" on:click={()=>{createBoard = true; createAnotherBoard = true;}} class="flex items-center justify-center space-x-1 text-white font-bold text-[0.9375rem] h-12 w-48 bg-[#635FC7] rounded-full">
                                         <span>
                                              <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M3.11001 8V5.09H0.200012V3.395H3.11001V0.5H4.80501V3.395H7.70001V5.09H4.80501V8H3.11001Z" fill="currentColor"/></svg>
                                         </span>
@@ -373,7 +381,7 @@
                                         </div>
                                    </div>
                                    <div class="mt-5 sm:mt-8">
-                                        {#if specificId == null}
+                                        {#if specificId == null || createAnotherBoard}
                                              <button type="button" on:click={()=>{numberOfColumns = [...numberOfColumns, numberOfColumns.length + 1]}} class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] bg-opacity-20 px-3 h-10 text-sm font-semibold text-[#635FC7] hover:text-white shadow-sm hover:bg-[#635FC7] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">
                                                   <span class="flex items-center space-x-1">
                                                        <span>
@@ -385,7 +393,7 @@
                                         {/if}
                                    </div>
                                    <div class="mt-5 sm:mt-4 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-                                        <button type="submit" class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] px-3 h-10 text-sm font-semibold text-white shadow-sm hover:bg-[#A8A4FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">{(specificId == null) ? "Create Board" : "Update Board"}</button>
+                                        <button type="submit" class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] px-3 h-10 text-sm font-semibold text-white shadow-sm hover:bg-[#A8A4FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">{(specificId == null || createAnotherBoard) ? "Create Board" : "Update Board"}</button>
                                         <button type="button" on:click={()=>{createBoard = false; createAnotherBoard = false; showBoardSettings = false;}} class="mt-3 inline-flex w-full justify-center items-center rounded-md bg-[#EA5555] px-3 h-10 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#FF9898] sm:col-start-1 sm:mt-0">Cancel</button>
                                    </div>
                               </form>

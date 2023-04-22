@@ -318,26 +318,28 @@
                          {#each $BoardStore as board (board?.id)}
                               {#if board?.id === specificId}
                                    {#each board?.status as status}
-                                        <div class="max-w-[17.5rem] space-y-5" style="flex: 0 0 100%;">
+                                        <div class="flex flex-col max-w-[17.5rem] space-y-2" style="flex: 0 0 100%;">
                                              <h4 class="flex items-center space-x-3 mb-6 font-bold text-sm text-[#828FA3]">
                                                   <span class="block bg-red-500 rounded-full w-[0.9375rem] h-[0.9375rem]"></span>
                                                   <span class="uppercase">{status} ( {numberOfBoards} )</span>
                                              </h4>
-                                             {#each board?.tasks as task}
-                                                  {#if task?.status === status}
-                                                       <div on:click={()=>{showTaskPreview(task?.id)}} on:keydown={()=>{}} class="bg-white rounded-lg pt-[1.625rem] px-4 pb-6 drop-shadow-md cursor-pointer">
-                                                            <h5 class="font-bold">{task?.title}</h5>
-                                                            <span class="font-bold text-xs text-[#828FA3]">{task.subtasks.length} of 2 substasks</span>
-                                                            <p on:click={() => editTask(task?.id)} on:keydown={()=>{}}>edit</p>
-                                                       </div>                                        
-                                                  {/if}
-                                             {/each}
+                                             <div class="flex-1 space-y-4 p-[0.3125rem] bg-[#E9EFFB] rounded-lg">
+                                                  {#each board?.tasks as task}
+                                                       {#if task?.status === status}
+                                                            <div on:click={()=>{showTaskPreview(task?.id)}} on:keydown={()=>{}} class="bg-white rounded-lg pt-[1.625rem] px-4 pb-6 drop-shadow-md cursor-pointer">
+                                                                 <h5 class="font-bold">{task?.title}</h5>
+                                                                 <span class="font-bold text-xs text-[#828FA3]">{task.subtasks.length} of 2 substasks</span>
+                                                                 <p on:click={() => editTask(task?.id)} on:keydown={()=>{}}>edit</p>
+                                                            </div>                                        
+                                                       {/if}
+                                                  {/each}
+                                             </div>
                                         </div>
                                    {/each}
                               {/if}
                          {/each}
                          {#if showAddNewColumn}
-                              <div on:click={createColumn} on:keydown={()=>{}} class="flex items-center justify-center space-x-2 max-w-[17.5rem] rounded-lg text-[#828FA3] text-2xl font-bold bg-[#E9EFFB] cursor-pointer" style="flex: 0 0 100%;">
+                              <div on:click={createColumn} on:keydown={()=>{}} class="flex items-center justify-center space-x-2 mt-[3.25rem] max-w-[17.5rem] rounded-lg text-[#828FA3] text-2xl font-bold bg-[#E9EFFB] cursor-pointer" style="flex: 0 0 100%;">
                                    <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M7.368 12V7.344H12V4.632H7.368V0H4.656v4.632H0v2.712h4.656V12z"/></svg>
                                    <span>Add New Column</span>
                               </div>

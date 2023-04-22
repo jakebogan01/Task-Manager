@@ -84,6 +84,7 @@
           deleteBoardModal = false;
           showBoardSettings = false;
           showAddNewColumn = false;
+          enableButton = true;
           currentBoardTitle = "";
      }
 

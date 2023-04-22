@@ -2,9 +2,11 @@
      import BoardStore from "../../stores/boardStore";
 
      let specificId;
+     let currentTaskId;
      let currentBoardTitle = "";
      let darkTheme = false;
      let showBoardSettings = false;
+     let showTaskSettings = false;
      let enableButton = true;
      let hideWelcomeMessage = false;
      let numberOfBoards = 0;
@@ -15,8 +17,18 @@
      let showAddNewColumn = false;
      let addNewColumn = false;
      let addNewTask = false;
+     let previewTask = false;
 
-     let boardFields = { title: "", newCol: "", newTaskTitle: "", newTaskDescription: "", newTaskStatus: "", newTaskSubtask: [] };
+     let boardFields = { 
+          title: "", 
+          newCol: "", 
+          newTaskTitle: "", 
+          newTaskDescription: "", 
+          newTaskStatus: "", 
+          newTaskSubtask: [],
+          taskCurrentStatus: "",
+          taskCurrentCheck: []
+     };
      let numberOfColumns = [1];
      let arrayOfStatuses = [];
 
@@ -109,6 +121,9 @@
 
                return copiedBoards;
           });
+
+          showTaskSettings = false;
+          previewTask = false;
      };
 
      const editTask = (id) => {
@@ -118,12 +133,13 @@
 
                let tasks = updatedBoard.tasks;
                let filteredTask = tasks.filter(task => task.id === id);
-               
-               filteredTask[0].title = "task 4";
-               filteredTask[0].status = "DONE"
+
+               filteredTask[0].status = boardFields.taskCurrentStatus;
 
                return copiedBoards;
           });
+
+          previewTask = false;
      };
 
      const createColumn = () => {
@@ -210,6 +226,21 @@
                arrayOfStatuses = [...arrayOfStatuses];
           }
      }
+
+     const showTaskPreview = (id) => {
+          currentTaskId = id;
+
+          previewTask = true;
+     }
+
+     const test = (item, index) => {
+          item.map((i) => {
+               if (!i && index > -1) {
+                    item.splice(index, 1);
+               }
+          })
+          boardFields.taskCurrentCheck = [...item]
+     }
 </script>
 
 <div class:dark={darkTheme}>
@@ -294,8 +325,8 @@
                                              </h4>
                                              {#each board?.tasks as task}
                                                   {#if task?.status === status}
-                                                       <div class="bg-white rounded-lg pt-[1.625rem] px-4 pb-6 drop-shadow-md cursor-pointer">
-                                                            <h5 on:click={() => deleteTask(task?.id)} on:keydown={()=>{}} class="font-bold">{task?.title}</h5>
+                                                       <div on:click={()=>{showTaskPreview(task?.id)}} on:keydown={()=>{}} class="bg-white rounded-lg pt-[1.625rem] px-4 pb-6 drop-shadow-md cursor-pointer">
+                                                            <h5 class="font-bold">{task?.title}</h5>
                                                             <span class="font-bold text-xs text-[#828FA3]">{task.subtasks.length} of 2 substasks</span>
                                                             <p on:click={() => editTask(task?.id)} on:keydown={()=>{}}>edit</p>
                                                        </div>                                        
@@ -403,7 +434,7 @@
                                    </div>
                                    <div class="mt-5 sm:mt-8">
                                         {#if specificId == null || createAnotherBoard}
-                                             <button type="button" on:click={()=>{numberOfColumns = [...numberOfColumns, numberOfColumns.length + 1]}} class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] bg-opacity-20 px-3 h-10 text-sm font-semibold text-[#635FC7] hover:text-white shadow-sm hover:bg-[#635FC7] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">
+                                             <button type="button" on:click={()=>{numberOfColumns = [...numberOfColumns, numberOfColumns.length + 1]}} class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] bg-opacity-20 px-3 h-10 text-sm font-semibold text-[#635FC7] hover:text-white shadow-sm hover:bg-opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">
                                                   <span class="flex items-center space-x-1">
                                                        <span>
                                                             <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.11001 8V5.09H0.200012V3.395H3.11001V0.5H4.80501V3.395H7.70001V5.09H4.80501V8H3.11001Z" fill="currentColor"/></svg>
@@ -575,7 +606,7 @@
                                         </div>
                                    </div>
                                    <div class="mt-5">
-                                        <button type="button" on:click={()=>{numberOfColumns = [...numberOfColumns, numberOfColumns.length + 1]}} class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] bg-opacity-20 px-3 h-10 text-sm font-semibold text-[#635FC7] hover:text-white shadow-sm hover:bg-[#635FC7] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">
+                                        <button type="button" on:click={()=>{numberOfColumns = [...numberOfColumns, numberOfColumns.length + 1]}} class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] bg-opacity-20 px-3 h-10 text-sm font-semibold text-[#635FC7] hover:text-white shadow-sm hover:bg-opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">
                                              <span class="flex items-center space-x-1">
                                                   <span>
                                                        <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.11001 8V5.09H0.200012V3.395H3.11001V0.5H4.80501V3.395H7.70001V5.09H4.80501V8H3.11001Z" fill="currentColor"/></svg>
@@ -603,6 +634,94 @@
                                         <button type="button" on:click={()=>{addNewTask = false;}} class="mt-3 inline-flex w-full justify-center items-center rounded-md bg-[#EA5555] px-3 h-10 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#FF9898] sm:col-start-1 sm:mt-0">Cancel</button>
                                    </div>
                               </form>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     {/if}
+
+     {#if previewTask}
+     <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+          <!--
+          Background backdrop, show/hide based on modal state.
+
+          Entering: "ease-out duration-300"
+          From: "opacity-0"
+          To: "opacity-100"
+          Leaving: "ease-in duration-200"
+          From: "opacity-100"
+          To: "opacity-0"
+          -->
+               <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+               <div class="fixed inset-0 z-10 overflow-y-auto">
+                    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <!--
+                    Modal panel, show/hide based on modal state.
+
+                    Entering: "ease-out duration-300"
+                    From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    To: "opacity-100 translate-y-0 sm:scale-100"
+                    Leaving: "ease-in duration-200"
+                    From: "opacity-100 translate-y-0 sm:scale-100"
+                    To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    -->
+                         <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-[30rem] sm:p-6">
+                              {#each $BoardStore as board (board?.id)}
+                                   {#if board?.id === specificId}
+                                        {#each board?.tasks as task}
+                                             {#if task?.id === currentTaskId}
+                                             <div class="absolute top-[2.3rem] right-6">
+                                                  <button on:click={() => { showTaskSettings = !showTaskSettings; }} type="button" class="-m-2.5 block p-2.5 text-gray-400 hover:text-gray-500" id="options-menu-1-button" aria-expanded="false" aria-haspopup="true">
+                                                       <span class="sr-only">Open options</span>
+                                                       <svg width="5" height="20" xmlns="http://www.w3.org/2000/svg"><g fill="#828FA3" fill-rule="evenodd"><circle cx="2.308" cy="2.308" r="2.308"/><circle cx="2.308" cy="10" r="2.308"/><circle cx="2.308" cy="17.692" r="2.308"/></g></svg>
+                                                  </button>
+                                                  {#if showTaskSettings}
+                                                       <div class="absolute right-0 z-10 mt-0.5 w-36 py-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-gray-900/5 focus:outline-none overflow-hidden" role="menu" aria-orientation="vertical" aria-labelledby="options-menu-1-button" tabindex="-1">
+                                                            <button type="button" class="block w-full px-3 py-1 font-medium text-[0.8125rem] leading-6 text-[#828FA3] text-left hover:bg-gray-50" role="menuitem" tabindex="-1" id="options-menu-1-item-0">Edit Task<span class="sr-only">Edit Task</span></button>
+                                                            <button type="button" on:click={() => deleteTask(task?.id)} class="block w-full px-3 py-1 font-medium text-[0.8125rem] leading-6 text-[#EA5555] text-left hover:bg-gray-50" role="menuitem" tabindex="-1" id="options-menu-1-item-1">Delete Task<span class="sr-only">Delete Task</span></button>
+                                                       </div>
+                                                  {/if}
+                                             </div>
+                                                  <form on:submit|preventDefault={()=>{editTask(task?.id)}}>
+                                                       <div class="mt-3">
+                                                            <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">{task.title}</h3>
+                                                            <p class="font-medium mt-6 text-[0.8125rem] text-[#828FA3] leading-loose">{task.description}</p>
+                                                            <fieldset class="mt-6">
+                                                                 <legend class="font-bold text-xs text-[#828FA3]">Subtasks ({boardFields.taskCurrentCheck.length} of {task.subtasks.length})</legend>
+                                                                      <div class="space-y-2 mt-4">
+                                                                           {#each task?.subtasks as subtask, i}
+                                                                                <div class="relative flex items-start bg-[#F5F7FD] py-2 px-2 rounded-md">
+                                                                                     <div class="flex h-6 items-center">
+                                                                                          <input bind:checked={boardFields.taskCurrentCheck[i]} on:change={()=>{test(boardFields.taskCurrentCheck, i)}} aria-describedby="comments-description" name="comments" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                                                                                     </div>
+                                                                                     <div class="ml-3 text-sm leading-6">
+                                                                                          <span class="text-gray-900 {boardFields.taskCurrentCheck[i] ? "line-through text-gray-600" : ""}">{subtask}</span>
+                                                                                     </div>
+                                                                                </div>
+                                                                           {/each}
+                                                                      </div>
+                                                            </fieldset>
+                                                            <div class="mt-5">
+                                                                 <label for="status" class="block text-xs font-bold leading-6 text-[#828FA3]">Current Status</label>
+                                                                 <div class="mt-2">
+                                                                      <select bind:value={boardFields.taskCurrentStatus} name="status" class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                                                                           {#each board?.status as status}
+                                                                                <option>{status}</option>
+                                                                           {/each}
+                                                                      </select>
+                                                                 </div>
+                                                            </div>
+                                                       </div>
+                                                       <div class="mt-5 sm:mt-8 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+                                                            <button type="submit" class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] px-3 h-10 text-sm font-semibold text-white shadow-sm hover:bg-[#A8A4FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">Update Task</button>
+                                                            <button type="button" on:click={()=>{previewTask = false;}} class="sm:col-start-1 inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] bg-opacity-20 px-3 h-10 text-sm font-semibold text-[#635FC7] hover:text-white shadow-sm hover:bg-opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Back</button>
+                                                       </div>
+                                                  </form>
+                                             {/if}
+                                        {/each}
+                                   {/if}
+                              {/each}
                          </div>
                     </div>
                </div>

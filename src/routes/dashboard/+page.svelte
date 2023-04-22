@@ -12,7 +12,9 @@
      let createBoard = false;
      let deleteBoardModal = false;
      let createAnotherBoard = false;
+     let showAddNewColumn = false;
      let addNewColumn = false;
+     let addNewTask = false;
 
      let boardFields = { title: "" };
      let numberOfColumns = [1];
@@ -23,7 +25,7 @@
           currentBoardTitle = title;
           enableButton = false;
           hideWelcomeMessage = true;
-          addNewColumn = true;
+          showAddNewColumn = true;
      };
 
      const createTask = () => {
@@ -101,14 +103,16 @@
      };
 
      const createColumn = () => {
-          BoardStore.update(currentBoards => {
-               let copiedBoards = [...currentBoards];
-               let updatedBoard = copiedBoards.find(board => board.id === specificId);
+          addNewColumn = true;
+
+          // BoardStore.update(currentBoards => {
+          //      let copiedBoards = [...currentBoards];
+          //      let updatedBoard = copiedBoards.find(board => board.id === specificId);
                
-               updatedBoard.status.push("PROCESS");
+          //      updatedBoard.status.push("PROCESS");
                
-               return copiedBoards;
-          });
+          //      return copiedBoards;
+          // });
      }
 
      const changeTheme = () => {
@@ -268,7 +272,7 @@
                                    {/each}
                               {/if}
                          {/each}
-                         {#if addNewColumn}
+                         {#if showAddNewColumn}
                               <div on:click={createColumn} on:keydown={()=>{}} class="flex items-center justify-center space-x-2 max-w-[17.5rem] rounded-lg text-[#828FA3] text-2xl font-bold bg-[#E9EFFB] cursor-pointer" style="flex: 0 0 100%;">
                                    <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M7.368 12V7.344H12V4.632H7.368V0H4.656v4.632H0v2.712h4.656V12z"/></svg>
                                    <span>Add New Column</span>
@@ -330,13 +334,13 @@
                                              <div class="mt-2">
                                                   {#if specificId == null || createAnotherBoard}
                                                        <div>
-                                                            <label for="title" class="block text-sm font-bold leading-6 text-[#828FA3]">Name</label>
+                                                            <label for="title" class="block text-xs font-bold leading-6 text-[#828FA3]">Name</label>
                                                             <div class="mt-2">
                                                                  <input type="text" bind:value={boardFields.title} name="title" id="title" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. Web Design" required>
                                                             </div>
                                                        </div>
                                                        <div class="mt-5">
-                                                            <span class="block text-sm font-bold leading-6 text-[#828FA3]">Columns</span>
+                                                            <span class="block text-xs font-bold leading-6 text-[#828FA3]">Columns</span>
                                                             <div class="mt-2 space-y-4">
                                                                  {#each numberOfColumns as item, i}
                                                                       <div class="flex items-center space-x-4">
@@ -353,7 +357,7 @@
                                                        {#each $BoardStore as board (board?.id)}
                                                             {#if board?.id === specificId}
                                                                  <div>
-                                                                      <label for="title" class="block text-sm font-bold leading-6 text-[#828FA3]">Name</label>
+                                                                      <label for="title" class="block text-xs font-bold leading-6 text-[#828FA3]">Name</label>
                                                                       <div class="mt-2">
                                                                            <input type="text" bind:value={boardFields.title} name="title" id="title" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder={board.title} required>
                                                                       </div>
@@ -414,14 +418,146 @@
                     To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     -->
                          <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-[30rem] sm:p-6">
+                              <div class="mt-3">
+                                   <h3 class="text-base font-semibold leading-6 text-[#EA5555] text-center" id="modal-title">Delete this board?</h3>
+                                   <p class="font-medium text-[0.8125rem] text-[#828FA3] pb-4 pt-6">Are you sure you want to delete the ‘Platform Launch’ board? This action will remove all columns and tasks and cannot be reversed.</p>
+                              </div>
+                              <div class="mt-5 sm:mt-4 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+                                   <button type="button" on:click={()=>{deleteBoardModal = false; showBoardSettings = false;}} class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] px-3 h-10 text-sm font-semibold text-white shadow-sm hover:bg-[#A8A4FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">Cancel</button>
+                                   <button type="button" on:click={handleDeleteBoard} class="mt-3 inline-flex w-full justify-center items-center rounded-md bg-[#EA5555] px-3 h-10 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#FF9898] sm:col-start-1 sm:mt-0">Delete</button>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     {/if}
+
+     {#if addNewColumn}
+          <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+          <!--
+          Background backdrop, show/hide based on modal state.
+
+          Entering: "ease-out duration-300"
+          From: "opacity-0"
+          To: "opacity-100"
+          Leaving: "ease-in duration-200"
+          From: "opacity-100"
+          To: "opacity-0"
+          -->
+               <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+               <div class="fixed inset-0 z-10 overflow-y-auto">
+                    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <!--
+                    Modal panel, show/hide based on modal state.
+
+                    Entering: "ease-out duration-300"
+                    From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    To: "opacity-100 translate-y-0 sm:scale-100"
+                    Leaving: "ease-in duration-200"
+                    From: "opacity-100 translate-y-0 sm:scale-100"
+                    To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    -->
+                         <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-[30rem] sm:p-6">
                               <form on:submit|preventDefault={()=>{handleBoardCreation($BoardStore.length)}}>
                                    <div class="mt-3">
-                                        <h3 class="text-base font-semibold leading-6 text-[#EA5555] text-center" id="modal-title">Delete this board?</h3>
-                                        <p class="font-medium text-[0.8125rem] text-[#828FA3] pb-4 pt-6">Are you sure you want to delete the ‘Platform Launch’ board? This action will remove all columns and tasks and cannot be reversed.</p>
+                                        <h3 class="text-base font-semibold leading-6 text-gray-900 text-center" id="modal-title">Add New Column</h3>
                                    </div>
                                    <div class="mt-5 sm:mt-4 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-                                        <button type="button" on:click={()=>{deleteBoardModal = false; showBoardSettings = false;}} class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] px-3 h-10 text-sm font-semibold text-white shadow-sm hover:bg-[#A8A4FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">Cancel</button>
-                                        <button type="button" on:click={handleDeleteBoard} class="mt-3 inline-flex w-full justify-center items-center rounded-md bg-[#EA5555] px-3 h-10 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#FF9898] sm:col-start-1 sm:mt-0">Delete</button>
+                                        <button type="submit" class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] px-3 h-10 text-sm font-semibold text-white shadow-sm hover:bg-[#A8A4FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">Add Column</button>
+                                        <button type="button" on:click={()=>{createBoard = false; createAnotherBoard = false; showBoardSettings = false;}} class="mt-3 inline-flex w-full justify-center items-center rounded-md bg-[#EA5555] px-3 h-10 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#FF9898] sm:col-start-1 sm:mt-0">Cancel</button>
+                                   </div>
+                              </form>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     {/if}
+
+     {#if addNewTask}
+          <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+          <!--
+          Background backdrop, show/hide based on modal state.
+
+          Entering: "ease-out duration-300"
+          From: "opacity-0"
+          To: "opacity-100"
+          Leaving: "ease-in duration-200"
+          From: "opacity-100"
+          To: "opacity-0"
+          -->
+               <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+               <div class="fixed inset-0 z-10 overflow-y-auto">
+                    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <!--
+                    Modal panel, show/hide based on modal state.
+
+                    Entering: "ease-out duration-300"
+                    From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    To: "opacity-100 translate-y-0 sm:scale-100"
+                    Leaving: "ease-in duration-200"
+                    From: "opacity-100 translate-y-0 sm:scale-100"
+                    To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    -->
+                         <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                              <form on:submit|preventDefault={()=>{handleBoardCreation($BoardStore.length)}}>
+                                   <div>
+                                        <div class="mt-3">
+                                             <h3 class="text-base font-semibold leading-6 text-gray-900 text-center" id="modal-title">Add New Task</h3>
+                                             <div class="mt-2">
+                                                  <div>
+                                                       <label for="title" class="block text-xs font-bold leading-6 text-[#828FA3]">Title</label>
+                                                       <div class="mt-2">
+                                                            <input type="text" bind:value={boardFields.title} name="title" id="title" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. Take coffee break" required>
+                                                       </div>
+                                                  </div>
+                                                  <div class="mt-5">
+                                                       <label for="description" class="block text-xs font-bold leading-6 text-[#828FA3]">Description</label>
+                                                       <div class="mt-2">
+                                                            <textarea type="text" bind:value={boardFields.title} name="description" id="description" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. It is always good to take a break. This 15 minute break will recharge the batteries a little." rows="4" required></textarea>
+                                                       </div>
+                                                  </div>
+                                                  <div class="mt-5">
+                                                       <span class="block text-xs font-bold leading-6 text-[#828FA3]">Subtasks</span>
+                                                       <div class="mt-2 space-y-4">
+                                                            {#each numberOfColumns as item, i}
+                                                                 <div class="flex items-center space-x-4">
+                                                                      <input type="text" bind:value={arrayOfStatuses[i]} class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. Make coffee" required>
+                                                                      <button type="button" on:click={()=>{addColumnOptions(item, i)}} class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                                                           <span class="sr-only">Close</span>
+                                                                           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                                                      </button>
+                                                                 </div>
+                                                            {/each}
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                   </div>
+                                   <div class="mt-5">
+                                        <button type="button" on:click={()=>{numberOfColumns = [...numberOfColumns, numberOfColumns.length + 1]}} class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] bg-opacity-20 px-3 h-10 text-sm font-semibold text-[#635FC7] hover:text-white shadow-sm hover:bg-[#635FC7] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">
+                                             <span class="flex items-center space-x-1">
+                                                  <span>
+                                                       <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.11001 8V5.09H0.200012V3.395H3.11001V0.5H4.80501V3.395H7.70001V5.09H4.80501V8H3.11001Z" fill="currentColor"/></svg>
+                                                  </span>
+                                                  <span>Add New Subtask</span>
+                                             </span>
+                                        </button>
+                                   </div>
+                                   <div class="mt-5">
+                                        <label for="status" class="block text-xs font-bold leading-6 text-[#828FA3]">Status</label>
+                                        <div class="mt-2">
+                                             <select id="status" name="status" class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                                  <option selected>ToDo</option>
+                                                  <option>Canada</option>
+                                                  <option>Mexico</option>
+                                             </select>
+                                        </div>
+                                   </div>
+                                   <div class="mt-5 sm:mt-8 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+                                        <button type="submit" class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] px-3 h-10 text-sm font-semibold text-white shadow-sm hover:bg-[#A8A4FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">{(specificId == null) ? "Create Board" : "Update Board"}</button>
+                                        <button type="button" on:click={()=>{createBoard = false; createAnotherBoard = false; showBoardSettings = false;}} class="mt-3 inline-flex w-full justify-center items-center rounded-md bg-[#EA5555] px-3 h-10 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#FF9898] sm:col-start-1 sm:mt-0">Cancel</button>
                                    </div>
                               </form>
                          </div>

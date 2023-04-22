@@ -16,7 +16,7 @@
      let addNewColumn = false;
      let addNewTask = false;
 
-     let boardFields = { title: "", newCol: "", newTaskTitle: "", newTaskDescription: "", newTaskStatus: "" };
+     let boardFields = { title: "", newCol: "", newTaskTitle: "", newTaskDescription: "", newTaskStatus: "", newTaskSubtask: [] };
      let numberOfColumns = [1];
      let arrayOfStatuses = [];
 
@@ -43,7 +43,8 @@
                id: newId,
                title: boardFields.newTaskTitle.trim(),
                description: boardFields.newTaskDescription.trim(),
-               status: boardFields.newTaskStatus
+               status: boardFields.newTaskStatus,
+               subtasks: [...boardFields.newTaskSubtask]
           };
 
           BoardStore.update(currentBoards => {
@@ -65,6 +66,8 @@
           boardFields.newTaskTitle = "";
           boardFields.newTaskDescription = "";
           boardFields.newTaskStatus = "";
+          boardFields.newTaskSubtask = [];
+          numberOfColumns = [1];
           addNewTask = false;
      }
 
@@ -188,8 +191,17 @@
           createAnotherBoard = false;
      }
 
-     const addColumnOptions = (i, x) => {
+     const addColumnOptions = (i, x, viewingTask) => {
           const index = numberOfColumns.indexOf(i);
+
+          if (viewingTask && index > -1) {
+               numberOfColumns.splice(index, 1);
+               boardFields.newTaskSubtask.splice(x, 1);
+               numberOfColumns = [...numberOfColumns];
+               boardFields.newTaskSubtask = [...boardFields.newTaskSubtask];
+
+               return;
+          }
 
           if (index > -1) {
                numberOfColumns.splice(index, 1);
@@ -284,7 +296,7 @@
                                                   {#if task?.status === status}
                                                        <div class="bg-white rounded-lg pt-[1.625rem] px-4 pb-6 drop-shadow-md cursor-pointer">
                                                             <h5 on:click={() => deleteTask(task?.id)} on:keydown={()=>{}} class="font-bold">{task?.title}</h5>
-                                                            <span class="font-bold text-xs text-[#828FA3]">0 of 2 substasks</span>
+                                                            <span class="font-bold text-xs text-[#828FA3]">{task.subtasks.length} of 2 substasks</span>
                                                             <p on:click={() => editTask(task?.id)} on:keydown={()=>{}}>edit</p>
                                                        </div>                                        
                                                   {/if}
@@ -550,8 +562,8 @@
                                                        <div class="mt-2 space-y-4">
                                                             {#each numberOfColumns as item, i}
                                                                  <div class="flex items-center space-x-4">
-                                                                      <input type="text" bind:value={arrayOfStatuses[i]} class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. Make coffee" required>
-                                                                      <button type="button" on:click={()=>{addColumnOptions(item, i)}} class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                                                      <input type="text" bind:value={boardFields.newTaskSubtask[i]} class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. Make coffee" required>
+                                                                      <button type="button" on:click={()=>{addColumnOptions(item, i, true)}} class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                                                            <span class="sr-only">Close</span>
                                                                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                                                       </button>

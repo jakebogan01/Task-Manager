@@ -16,7 +16,7 @@
      let addNewColumn = false;
      let addNewTask = false;
 
-     let boardFields = { title: "", newCol: "" };
+     let boardFields = { title: "", newCol: "", newTaskTitle: "", newTaskDescription: "", newTaskStatus: "" };
      let numberOfColumns = [1];
      let arrayOfStatuses = [];
 
@@ -32,22 +32,41 @@
           if (specificId == null) {
                return;
           }
-          
+
+          addNewTask = true;
+     };
+
+     const handleCreateNewTask = (id) => {
+          let newId = id + 1;
+
           let task = {
-               id: 3,
-               title: "task 3",
-               status: "DONE",
+               id: newId,
+               title: boardFields.newTaskTitle.trim(),
+               description: boardFields.newTaskDescription.trim(),
+               status: boardFields.newTaskStatus
           };
 
           BoardStore.update(currentBoards => {
                let copiedBoards = [...currentBoards];
                let updatedBoard = copiedBoards.find(board => board.id === specificId);
-               
-               updatedBoard.tasks.push(task);
 
+               updatedBoard.tasks.map((task) => {
+                    if (task.id === newId) {
+                         newId += 1;
+                         task.id = newId;
+                    }
+               });
+
+               updatedBoard.tasks = [...updatedBoard.tasks, task];
+               
                return copiedBoards;
           });
-     };
+
+          boardFields.newTaskTitle = "";
+          boardFields.newTaskDescription = "";
+          boardFields.newTaskStatus = "";
+          addNewTask = false;
+     }
 
      const deleteBoard = () => {
           if (specificId == null) {
@@ -136,18 +155,7 @@
                     id: newId,
                     title: boardFields.title.trim(),
                     status: [...upper],
-                    tasks: [
-                         {
-                              id: 1,
-                              title: "task 1",
-                              status: "TODO",
-                         },
-                         {
-                              id: 2,
-                              title: "task 2",
-                              status: "DOING",
-                         },
-                    ],
+                    tasks: [],
                };
 
                BoardStore.update(currentBoards => {
@@ -519,7 +527,7 @@
                     To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     -->
                          <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-                              <form on:submit|preventDefault={()=>{handleBoardCreation($BoardStore.length)}}>
+                              <form on:submit|preventDefault={()=>{handleCreateNewTask($BoardStore.length)}}>
                                    <div>
                                         <div class="mt-3">
                                              <h3 class="text-base font-semibold leading-6 text-gray-900 text-center" id="modal-title">Add New Task</h3>
@@ -527,13 +535,13 @@
                                                   <div>
                                                        <label for="title" class="block text-xs font-bold leading-6 text-[#828FA3]">Title</label>
                                                        <div class="mt-2">
-                                                            <input type="text" bind:value={boardFields.title} name="title" id="title" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. Take coffee break" required>
+                                                            <input type="text" bind:value={boardFields.newTaskTitle} name="title" id="title" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. Take coffee break" required>
                                                        </div>
                                                   </div>
                                                   <div class="mt-5">
                                                        <label for="description" class="block text-xs font-bold leading-6 text-[#828FA3]">Description</label>
                                                        <div class="mt-2">
-                                                            <textarea type="text" bind:value={boardFields.title} name="description" id="description" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. It is always good to take a break. This 15 minute break will recharge the batteries a little." rows="4" required></textarea>
+                                                            <textarea type="text" bind:value={boardFields.newTaskDescription} name="description" id="description" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. It is always good to take a break. This 15 minute break will recharge the batteries a little." rows="4" required></textarea>
                                                        </div>
                                                   </div>
                                                   <div class="mt-5">
@@ -566,16 +574,20 @@
                                    <div class="mt-5">
                                         <label for="status" class="block text-xs font-bold leading-6 text-[#828FA3]">Status</label>
                                         <div class="mt-2">
-                                             <select id="status" name="status" class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                                  <option selected>ToDo</option>
-                                                  <option>Canada</option>
-                                                  <option>Mexico</option>
+                                             <select bind:value={boardFields.newTaskStatus} id="status" name="status" class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                                  {#each $BoardStore as board (board?.id)}
+                                                       {#if board?.id === specificId}
+                                                            {#each board?.status as status}
+                                                                 <option>{status}</option>
+                                                            {/each}
+                                                       {/if}
+                                                  {/each}
                                              </select>
                                         </div>
                                    </div>
                                    <div class="mt-5 sm:mt-8 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-                                        <button type="submit" class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] px-3 h-10 text-sm font-semibold text-white shadow-sm hover:bg-[#A8A4FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">{(specificId == null) ? "Create Board" : "Update Board"}</button>
-                                        <button type="button" on:click={()=>{createBoard = false; createAnotherBoard = false; showBoardSettings = false;}} class="mt-3 inline-flex w-full justify-center items-center rounded-md bg-[#EA5555] px-3 h-10 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#FF9898] sm:col-start-1 sm:mt-0">Cancel</button>
+                                        <button type="submit" class="inline-flex w-full justify-center items-center rounded-md bg-[#635FC7] px-3 h-10 text-sm font-semibold text-white shadow-sm hover:bg-[#A8A4FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">Create Task</button>
+                                        <button type="button" on:click={()=>{addNewTask = false;}} class="mt-3 inline-flex w-full justify-center items-center rounded-md bg-[#EA5555] px-3 h-10 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#FF9898] sm:col-start-1 sm:mt-0">Cancel</button>
                                    </div>
                               </form>
                          </div>

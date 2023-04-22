@@ -8,12 +8,14 @@ const BoardStore = writable([
     tasks: [
       {
         id: 1,
-        title: "task 1",
+        title: "Eat more donuts",
+        description: "Donuts are healthy, I don't care what other people think.",
         status: "TODO",
       },
       {
         id: 2,
-        title: "task 2",
+        title: "Eat more donuts",
+        description: "Donuts are healthy, I don't care what other people think.",
         status: "DOING",
       },
     ],
@@ -25,22 +27,26 @@ const BoardStore = writable([
     tasks: [
       {
         id: 1,
-        title: "task 1",
+        title: "Eat more donuts",
+        description: "Donuts are healthy, I don't care what other people think.",
         status: "TODO",
       },
       {
         id: 2,
-        title: "task 2",
+        title: "Eat more donuts",
+        description: "Donuts are healthy, I don't care what other people think.",
         status: "DOING",
       },
       {
         id: 3,
-        title: "task 3",
+        title: "Eat more donuts",
+        description: "Donuts are healthy, I don't care what other people think.",
         status: "DOING",
       },
       {
         id: 4,
-        title: "task 3",
+        title: "Eat more donuts",
+        description: "Donuts are healthy, I don't care what other people think.",
         status: "DONE",
       },
     ],

@@ -1,14 +1,20 @@
+<script>
+     let advertisement = true;
+</script>
+
 <div class="bg-gray-900">
-     <div class="hidden sm:flex items-center justify-center font-medium text-lg text-white h-12 bg-gradient-to-r from-[#BD00FF] to-[#51ABFF]">
-          <div class="flex justify-center items-center bg-white w-11 h-[1.375rem] mr-2 rounded-lg">
-               <span class="text-xs font-bold text-[#973EFF]">NEW</span>
+     {#if advertisement}
+          <div class="hidden sm:flex items-center justify-center font-medium text-lg text-white h-12 bg-gradient-to-r from-[#BD00FF] to-[#51ABFF]">
+               <div class="flex justify-center items-center bg-white w-11 h-[1.375rem] mr-2 rounded-lg">
+                    <span class="text-xs font-bold text-[#973EFF]">NEW</span>
+               </div>
+               <p>Our task dashboard has just launched! <a href="/login" class="underline">Try it for free!</a></p>
+               <button type="button" on:click={()=>{advertisement = false;}} class="rounded-md ml-4 text-white hover:opacity-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    <span class="sr-only">Close</span>
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+               </button>
           </div>
-          <p>Our task dashboard has just launched! <a href="/login" class="underline">Try it for free!</a></p>
-          <button type="button" class="rounded-md ml-4 text-white hover:opacity-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-               <span class="sr-only">Close</span>
-               <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-          </button>
-     </div>
+     {/if}
      <main>
           <div class="relative isolate overflow-hidden">
                <svg class="absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]" aria-hidden="true"><defs><pattern id="983e3e4c-de6d-4c3f-8d64-b9761d1534cc" width="200" height="200" x="50%" y="-1" patternUnits="userSpaceOnUse"><path d="M.5 200V.5H200" fill="none" /></pattern></defs><svg x="50%" y="-1" class="overflow-visible fill-gray-800/20"><path d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z" stroke-width="0" /></svg><rect width="100%" height="100%" stroke-width="0" fill="url(#983e3e4c-de6d-4c3f-8d64-b9761d1534cc)" /></svg>
@@ -29,8 +35,8 @@
                          <h1 class="mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl">Manage your tasks with confidence</h1>
                          <p class="mt-6 text-lg leading-8 text-gray-300">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.</p>
                          <div class="mt-10 flex items-center gap-x-6">
-                              <a href="#" class="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">Get started</a>
-                              <a href="#" class="text-sm font-bold leading-6 text-white">Live demo <span aria-hidden="true">→</span></a>
+                              <a href="/register" class="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">Get started</a>
+                              <a href="/register" class="text-sm font-bold leading-6 text-white">Live demo <span aria-hidden="true">→</span></a>
                          </div>
                     </div>
                     <div class="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32">
@@ -170,8 +176,8 @@
                     <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Boost your productivity.<br>Start using our app today.</h2>
                     <p class="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-300">Incididunt sint fugiat pariatur cupidatat consectetur sit cillum anim id veniam aliqua proident excepteur commodo do ea.</p>
                     <div class="mt-10 flex items-center justify-center gap-x-6">
-                         <a href="#" class="rounded-md bg-white px-3.5 py-2.5 text-sm font-bold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Get started</a>
-                         <a href="#" class="text-sm font-bold leading-6 text-white">Learn more <span aria-hidden="true">→</span></a>
+                         <a href="/register" class="rounded-md bg-white px-3.5 py-2.5 text-sm font-bold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Get started</a>
+                         <a href="/register" class="text-sm font-bold leading-6 text-white">Learn more <span aria-hidden="true">→</span></a>
                     </div>
                </div>
           </div>

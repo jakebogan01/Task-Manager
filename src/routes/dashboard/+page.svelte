@@ -402,7 +402,7 @@
 
      <!-- modals -->
      {#if createBoard}
-          <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+          <div class="relative" style="z-index: 100;" aria-labelledby="modal-title" role="dialog" aria-modal="true">
           <!--
           Background backdrop, show/hide based on modal state.
 
@@ -493,7 +493,7 @@
      {/if}
 
      {#if deleteBoardModal}
-          <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+          <div class="relative" style="z-index: 100;" aria-labelledby="modal-title" role="dialog" aria-modal="true">
           <!--
           Background backdrop, show/hide based on modal state.
 
@@ -534,7 +534,7 @@
      {/if}
 
      {#if addNewColumn}
-          <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+          <div class="relative" style="z-index: 100;" aria-labelledby="modal-title" role="dialog" aria-modal="true">
           <!--
           Background backdrop, show/hide based on modal state.
 
@@ -582,7 +582,7 @@
      {/if}
 
      {#if addNewTask}
-          <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+          <div class="relative" style="z-index: 100;" aria-labelledby="modal-title" role="dialog" aria-modal="true">
           <!--
           Background backdrop, show/hide based on modal state.
 
@@ -678,7 +678,7 @@
      {/if}
 
      {#if previewTask}
-          <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+          <div class="relative" style="z-index: 100;" aria-labelledby="modal-title" role="dialog" aria-modal="true">
           <!--
           Background backdrop, show/hide based on modal state.
 

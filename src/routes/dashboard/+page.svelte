@@ -437,7 +437,7 @@
                                                        <div>
                                                             <label for="title" class="block text-xs font-bold leading-6 text-[#828FA3] dark:text-white">Name</label>
                                                             <div class="mt-2">
-                                                                 <input type="text" bind:value={boardFields.title} name="title" id="title" class="block w-full bg-transparent dark:bg-[#2B2C37] dark:text-wite rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#3E3F4E] placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. Web Design" required>
+                                                                 <input type="text" bind:value={boardFields.title} name="title" id="title" class="block w-full bg-transparent dark:bg-[#2B2C37] dark:text-wite rounded-md border-0 py-1.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#3E3F4E] placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. Web Design" required>
                                                             </div>
                                                        </div>
                                                        <div class="mt-5">
@@ -445,7 +445,7 @@
                                                             <div class="mt-2 space-y-4">
                                                                  {#each numberOfColumns as item, i}
                                                                       <div class="flex items-center space-x-4">
-                                                                           <input type="text" bind:value={arrayOfStatuses[i]} class="block w-full bg-transparent dark:bg-[#2B2C37] dark:text-wite rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#3E3F4E] placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. ToDo" required>
+                                                                           <input type="text" bind:value={arrayOfStatuses[i]} class="block w-full bg-transparent dark:bg-[#2B2C37] dark:text-wite rounded-md border-0 py-1.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#3E3F4E] placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. ToDo" required>
                                                                            <button type="button" on:click={()=>{addColumnOptions(item, i)}} class="rounded-md bg-white dark:bg-[#2B2C37] text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                                                                 <span class="sr-only">Close</span>
                                                                                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -460,7 +460,7 @@
                                                                  <div>
                                                                       <label for="title" class="block text-xs font-bold leading-6 text-[#828FA3] dark:text-white">Name</label>
                                                                       <div class="mt-2">
-                                                                           <input type="text" bind:value={boardFields.title} name="title" id="title" class="block w-full bg-transparent dark:bg-[#2B2C37] dark:text-wite rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#3E3F4E] placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder={board.title} required>
+                                                                           <input type="text" bind:value={boardFields.title} name="title" id="title" class="block w-full bg-transparent dark:bg-[#2B2C37] dark:text-wite rounded-md border-0 py-1.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#3E3F4E] placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder={board.title} required>
                                                                       </div>
                                                                  </div>
                                                             {/if}
@@ -566,7 +566,7 @@
                                         <div class="mt-2">
                                              <label for="status" class="block text-xs font-bold leading-6 text-[#828FA3]">Name</label>
                                              <div class="mt-2">
-                                                  <input type="text" bind:value={boardFields.newCol} name="status" id="status" class="block w-full bg-transparent dark:bg-[#2B2C37] dark:text-wite rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#3E3F4E] placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. Review" required>
+                                                  <input type="text" bind:value={boardFields.newCol} name="status" id="status" class="block w-full bg-transparent dark:bg-[#2B2C37] dark:text-wite rounded-md border-0 py-1.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-[#3E3F4E] placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. Review" required>
                                              </div>
                                         </div>
                                    </div>
